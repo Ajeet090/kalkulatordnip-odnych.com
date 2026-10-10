@@ -1,11 +1,38 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import FertilityCalculator from '../components/FertilityCalculator.astro';
+import InteractiveCalendar from '../components/InteractiveCalendar.astro';
+import PregnancyCalculator from '../components/PregnancyCalculator.astro';
+import SymptomsGuide from '../components/SymptomsGuide.astro';
+import ShettlesMethodInfo from '../components/ShettlesMethodInfo.astro';
+import PrintReportModal from '../components/PrintReportModal.astro';
+import KnowledgeBase from '../components/KnowledgeBase.astro';
+import FAQSection from '../components/FAQSection.astro';
+import SeoContentSection from '../components/SeoContentSection.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+  title="Kalkulator Dni Płodnych i Owulacji | Kalendarz Cyklu Online"
+  description="Oblicz dni płodne, owulację i termin porodu – bezpłatnie i bez rejestracji. Spersonalizowany kalendarz cyklu, reguła Naegelego i raport PDF dla ginekologa."
+>
+  <Header />
+
+  <main>
+    <Hero />
+    <FertilityCalculator />
+    <InteractiveCalendar />
+    <PregnancyCalculator />
+    <SymptomsGuide />
+    <ShettlesMethodInfo />
+    <SeoContentSection />
+    <KnowledgeBase />
+    <FAQSection />
+  </main>
+
+  <PrintReportModal />
+
+  <Footer />
 </Layout>

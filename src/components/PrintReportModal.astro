@@ -1,0 +1,142 @@
+---
+---
+
+<!-- Printable Summary Report Element (Hidden on Screen, Visible in Print Mode) -->
+<div id="printable-report" class="hidden print:block p-8 bg-white text-black font-sans space-y-6">
+  <div class="border-b-2 border-black pb-4 flex justify-between items-end">
+    <div>
+      <h1 class="text-2xl font-bold uppercase tracking-wide">Raport Cyklu i Dni Płodnych</h1>
+      <p class="text-sm text-gray-600">Wygenerowano ze strony kalkulatordnipłodnych.com</p>
+    </div>
+    <div class="text-right text-xs font-mono">
+      <div>Data wydruku: <span id="print-generated-date">--.--.----</span></div>
+      <div>Dokumentacja pacjentki</div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4 text-xs border p-4 rounded bg-gray-50">
+    <div>
+      <span class="font-bold">Pierwszy dzień ostatniej miesiączki (LMP):</span>
+      <span id="print-lmp">--.--.----</span>
+    </div>
+    <div>
+      <span class="font-bold">Średnia długość cyklu:</span>
+      <span id="print-cycle">-- dni</span>
+    </div>
+    <div>
+      <span class="font-bold">Przewidywana owulacja:</span>
+      <span id="print-ovulation">--.--.----</span>
+    </div>
+    <div>
+      <span class="font-bold">Okienko płodne:</span>
+      <span id="print-fertile">--.--.---- do --.--.----</span>
+    </div>
+  </div>
+
+  <div class="space-y-2">
+    <h3 class="text-sm font-bold border-b pb-1">Harmonogram Badań i Monitoringu Owulacji</h3>
+    <table class="w-full text-xs border-collapse border border-gray-300">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="border border-gray-300 p-2 text-left">Lp.</th>
+          <th class="border border-gray-300 p-2 text-left">Badanie / Zdarzenie</th>
+          <th class="border border-gray-300 p-2 text-left">Przewidywana Data</th>
+          <th class="border border-gray-300 p-2 text-left">Uwagi Medyczne</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="border border-gray-300 p-2">1</td>
+          <td class="border border-gray-300 p-2">USG Monitorowania Pęcherzyka (Folikulometria)</td>
+          <td class="border border-gray-300 p-2" id="print-usg-date">--.--.----</td>
+          <td class="border border-gray-300 p-2">Ocena wzrastającego pęcherzyka Graafa (10-12 cykl)</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 p-2">2</td>
+          <td class="border border-gray-300 p-2">Przewidywany Szczyt Owulacyjny (Pik LH)</td>
+          <td class="border border-gray-300 p-2" id="print-peak-date">--.--.----</td>
+          <td class="border border-gray-300 p-2">Najwyższe prawdopodobieństwo zapłodnienia</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 p-2">3</td>
+          <td class="border border-gray-300 p-2">Badanie Progesteronu we Krwi</td>
+          <td class="border border-gray-300 p-2" id="print-prog-date">--.--.----</td>
+          <td class="border border-gray-300 p-2">7 dni po owulacji (potwierdzenie przebytej owulacji)</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 p-2">4</td>
+          <td class="border border-gray-300 p-2">Test Ciążowy (beta-hCG z moczu/krwi)</td>
+          <td class="border border-gray-300 p-2" id="print-test-date">--.--.----</td>
+          <td class="border border-gray-300 p-2">Najwcześniejszy wiarygodny termin wykrycia ciąży</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pt-12 grid grid-cols-2 gap-8 text-xs">
+    <div class="border-t border-black pt-2 text-center text-gray-500">
+      Podpis Pacjentki
+    </div>
+    <div class="border-t border-black pt-2 text-center text-gray-500">
+      Pieczątka i Podpis Lekarza Ginekologa
+    </div>
+  </div>
+</div>
+
+<script>
+  const printBtn = document.getElementById('print-report-btn');
+  const printLmp = document.getElementById('print-lmp');
+  const printCycle = document.getElementById('print-cycle');
+  const printOvulation = document.getElementById('print-ovulation');
+  const printFertile = document.getElementById('print-fertile');
+  const printGenDate = document.getElementById('print-generated-date');
+  const printUsgDate = document.getElementById('print-usg-date');
+  const printPeakDate = document.getElementById('print-peak-date');
+  const printProgDate = document.getElementById('print-prog-date');
+  const printTestDate = document.getElementById('print-test-date');
+
+  function formatDate(d: Date): string {
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const yyyy = d.getFullYear();
+    return `${dd}.${mm}.${yyyy}`;
+  }
+
+  function populatePrintReport(data: any) {
+    if (!data) return;
+
+    if (printLmp) printLmp.textContent = formatDate(new Date(data.lmpDate));
+    if (printCycle) printCycle.textContent = `${data.cycleLength} dni`;
+    if (printOvulation) printOvulation.textContent = formatDate(new Date(data.ovulationDate));
+    if (printFertile) printFertile.textContent = `${formatDate(new Date(data.fertileStart))} - ${formatDate(new Date(data.fertileEnd))}`;
+
+    const ov = new Date(data.ovulationDate);
+
+    // USG date = Ovulation - 3 days
+    const usg = new Date(ov);
+    usg.setDate(ov.getDate() - 3);
+    if (printUsgDate) printUsgDate.textContent = formatDate(usg);
+
+    if (printPeakDate) printPeakDate.textContent = formatDate(ov);
+
+    // Progesterone = Ovulation + 7 days
+    const prog = new Date(ov);
+    prog.setDate(ov.getDate() + 7);
+    if (printProgDate) printProgDate.textContent = formatDate(prog);
+
+    if (printTestDate) printTestDate.textContent = formatDate(new Date(data.pregnancyTestDate));
+  }
+
+  window.addEventListener('fertilityCalculated', (e: any) => {
+    populatePrintReport(e.detail);
+  });
+
+  if ((window as any).__lastFertilityData) {
+    populatePrintReport((window as any).__lastFertilityData);
+  }
+
+  printBtn?.addEventListener('click', () => {
+    if (printGenDate) printGenDate.textContent = formatDate(new Date());
+    window.print();
+  });
+</script>

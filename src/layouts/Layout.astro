@@ -1,23 +1,262 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import '../styles/global.css';
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalUrl?: string;
+  includeFaqSchema?: boolean;
+  noindex?: boolean;
+}
+
+const siteUrl = "https://kalkulatordnipłodnych.com";
+
+const {
+  title = "Kalkulator Dni Płodnych i Owulacji Online | Kalendarz Cyklu",
+  description = "Darmowy kalkulator dni płodnych i owulacji. Oblicz swoje dni płodne, owulację oraz termin porodu. Dokładne wyliczenia, kalendarz cyklu i porady ginekologiczne.",
+  canonicalUrl = `${siteUrl}${Astro.url.pathname}`,
+  includeFaqSchema = Astro.url.pathname === '/',
+  noindex = false
+} = Astro.props;
+
+const ogImageUrl = `${siteUrl}/og-image.png`;
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Czy kalkulator dni płodnych jest wiarygodny?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Kalkulator dni płodnych jest narzędziem orientacyjnym, które bazuje na statystycznym modelu cyklu menstruacyjnego i regule matematycznej. Jego wiarygodność jest najwyższa u kobiet o regularnych cyklach trwających od 28 do 30 dni. Należy jednak pamiętać, że moment owulacji może ulec przesunięciu pod wpływem czynników takich jak stres, infekcja, zmiana diety, zaburzenia hormonalne czy podróże. Dlatego kalkulator stanowi bardzo dobre wsparcie przy planowaniu ciąży, lecz nie zastępuje diagnostyki medycznej ani metod antykoncepcyjnych."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kalkulator dni płodnych: kiedy począć chłopca?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Aby zwiększyć szansę na poczęcie chłopca, według tzw. metody Shettlesa zbliżenie powinno nastąpić bezpośrednio w dniu owulacji lub maksymalnie do 12 godzin przed jej wystąpieniem. Plemniki zawierające chromosom Y (męski) są szybsze i bardziej zwrotne niż plemniki z chromosomem X, lecz wykazują krótszą żywotność w drogach rodnych kobiety. Współżycie tuż przed pęknięciem pęcherzyka Graafa daje im przewagę w wyścigu do uwalnianej komórki jajowej."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kalkulator dni płodnych: kiedy począć dziewczynkę?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Planując poczęcie dziewczynki, zaleca się odbycie stosunku na 2 do 3 dni przed przewidywaną owulacją i powstrzymanie się od zbliżeń w dniu samej owulacji. Plemniki z chromosomem X (żeńskie) są cięższe i poruszają się wolniej, ale charakteryzują się znacznie dłuższą żywotnością w sprzyjającym środowisku śluzu szyjkowego (nawet do 5 dni). Gdy dochodzi do uwalniania komórki jajowej, szybkie plemniki Y często już obumarły, co zwiększa prawdopodobieństwo zapłodnienia przez plemnik X."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Dni płodne – czy kalkulator jest dokładny?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dokładność kalkulatora kalendarzowego zależy od powtarzalności Twoich cykli. Sam kalkulator wyznacza okienko płodne algorytmicznie na podstawie daty ostatniej miesiączki. Aby uzyskać najwyższą dokładność wyznaczenia dni płodnych, zaleca się łączenie wyliczeń kalendarzowych z codziennym pomiarem podstawowej temperatury ciała (PTC), obserwowaniem przezroczystego śluzu szyjkowego oraz wykonywaniem domowych testów owulacyjnych LH z moczu."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kalkulator dni płodnych: kiedy najlepiej zrobić test ciążowy?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Najlepszym momentem na wykonanie domowego testu ciążowego z moczu jest dzień spodziewanej miesiączki lub około 10-14 dni po wyznaczonej owulacji. W tym czasie dochodzi do implantacji zarodka w ścianie macicy, co inicjuje produkcję podjednostki beta hCG. Wykonanie czułego testu (o czułości 10 mIU/ml) z pierwszego moczu porannego zapewnia najbardziej miarodajny wynik. Badanie poziomu beta hCG z krwi obwodowej w laboratorium wykrywa ciążę jeszcze wcześniej – już 8-10 dni po zapłodnieniu."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Dokładny kalkulator ciąży – który tydzień i dzień?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dokładny kalkulator ciąży przedstawia wiek ciążowy w formacie ukończonych tygodni oraz dodatkowych dni (np. 8. tydzień + 3 dni, zapisywane jako 8w3d). Oznacza to, że pacjentka ukończyła pełne 8 tygodni ciąży i znajduje się w 4. dniu 9. tygodnia. Wyliczenie to opiera się na regule Naegelego ze skorygowaną długością cyklu, co umożliwia precyzyjne śledzenie etapów rozwoju płodu i planowanie obowiązkowych badań lekarskich."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Który to tydzień ciąży? Jak oblicza to kalkulator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Położniczy sposób obliczania wieku ciąży liczy się od pierwszego dnia ostatniej miesiączki (OM), a nie od dnia zapłodnienia. Wynika to z faktu, że dokładny moment owulacji i poczęcia jest trudny do uchwycenia, natomiast data miesiączki jest łatwa do ustalenia. W efekcie w momencie zapłodnienia kobieta biologicznie znajduje się już w około 2. tygodniu ciąży położniczej, a cała ciąża trwa umownie 40 tygodni (280 dni)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kalkulator ciąży: jak sprawdzić, który to tydzień?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Wstępny wiek ciążowy oblicza kalkulator na podstawie daty ostatniej miesiączki. Jednak ostateczną i najbardziej precyzyjną weryfikacją tego, który to tydzień ciąży, jest pierwsze badanie USG wykonane między 11. a 14. tygodniem. Lekarz ginekolog mierzy wówczas długość ciemieniowo-siedzeniową płodu (parametr CRL). Jeśli różnica między wiekiem z miesiączki a USG przekracza 7 dni, termin porodu skorygowany badaniem ultrasonograficznym staje się obowiązujący."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Jaki jest najdokładniejszy kalkulator dni płodnych?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Najdokładniejszy kalkulator dni płodnych to taki, który pozwala na personalizację długości cyklu oraz czasu trwania fazy lutealnej, a nie przyjmuje wyłącznie sztywnych 28 dni. Cyfrowe obliczenia stanowią jednak punkt wyjścia – maksymalną precyzję osiąga się łącząc kalendarz owulacji z wieloparametrową metodą objawowo-termiczną (obserwacja śluzu i temperatury) oraz aptecznymi testami LH."
+      }
+    }
+  ]
+};
+
+const webAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Kalkulator Dni Płodnych i Owulacji",
+  "url": canonicalUrl,
+  "description": description,
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "All",
+  "inLanguage": "pl-PL",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "PLN"
+  }
+};
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Kalkulator Dni Płodnych",
+  "url": siteUrl,
+  "logo": `${siteUrl}/favicon.svg`,
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+48-22-890-12-34",
+    "contactType": "customer service",
+    "availableLanguage": "Polish"
+  }
+};
+
+const medicalWebPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "MedicalWebPage",
+  "name": title,
+  "description": description,
+  "url": canonicalUrl,
+  "inLanguage": "pl-PL",
+  "about": [
+    { "@type": "MedicalConcept", "name": "Dni płodne" },
+    { "@type": "MedicalConcept", "name": "Owulacja" },
+    { "@type": "MedicalConcept", "name": "Cykl menstruacyjny" },
+    { "@type": "MedicalConcept", "name": "Kalkulator ciąży" }
+  ]
+};
+
+// Dynamic Breadcrumbs
+const pathname = Astro.url.pathname;
+const breadcrumbItems = [
+  {
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Strona Główna",
+    "item": siteUrl
+  }
+];
+
+if (pathname === '/o-nas') {
+  breadcrumbItems.push({
+    "@type": "ListItem",
+    "position": 2,
+    "name": "O Nas",
+    "item": `${siteUrl}/o-nas`
+  });
+} else if (pathname === '/kontakt') {
+  breadcrumbItems.push({
+    "@type": "ListItem",
+    "position": 2,
+    "name": "Kontakt",
+    "item": `${siteUrl}/kontakt`
+  });
+} else if (pathname === '/polityka-prywatnosci') {
+  breadcrumbItems.push({
+    "@type": "ListItem",
+    "position": 2,
+    "name": "Polityka Prywatności",
+    "item": `${siteUrl}/polityka-prywatnosci`
+  });
+} else if (pathname === '/regulamin') {
+  breadcrumbItems.push({
+    "@type": "ListItem",
+    "position": 2,
+    "name": "Regulamin",
+    "item": `${siteUrl}/regulamin`
+  });
+} else {
+  breadcrumbItems.push(
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kalkulator Dni Płodnych",
+      "item": `${siteUrl}/#kalkulator`
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Kalkulator Ciąży",
+      "item": `${siteUrl}/#kalkulator-ciazy`
+    }
+  );
+}
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbItems
+};
+---
+
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content="kalkulator dni płodnych, kalkulator owulacji, kalendarz małżeński, dni płodne i niepłodne, kiedy owulacja, kalkulator ciąży, termin porodu, tydzień ciąży, cykl menstruacyjny, planowanie ciąży" />
+    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="sitemap" href="/sitemap.xml" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Kalkulator Dni Płodnych i Owulacji – kalkulatordnipłodnych.com" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:site_name" content="Kalkulator Dni Płodnych" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Google Fonts with explicit Latin Extended support -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(webAppSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(medicalWebPageSchema)} />
+    {includeFaqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  </head>
+  <body class="bg-[#fafafa] text-[#171717] selection:bg-[#171717] selection:text-white min-h-screen flex flex-col justify-between">
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,110 @@
+---
+const faqs = [
+  {
+    q: "Czy kalkulator dni płodnych jest wiarygodny?",
+    a: "Kalkulator dni płodnych jest narzędziem orientacyjnym, które bazuje na statystycznym modelu cyklu menstruacyjnego i regule matematycznej. Jego wiarygodność jest najwyższa u kobiet o regularnych cyklach trwających od 28 do 30 dni. Należy jednak pamiętać, że moment owulacji może ulec przesunięciu pod wpływem czynników takich jak stres, infekcja, zmiana diety, zaburzenia hormonalne czy podróże. Dlatego kalkulator stanowi bardzo dobre wsparcie przy planowaniu ciąży, lecz nie zastępuje diagnostyki medycznej ani metod antykoncepcyjnych."
+  },
+  {
+    q: "Kalkulator dni płodnych: kiedy począć chłopca?",
+    a: "Aby zwiększyć szansę na poczęcie chłopca, według tzw. metody Shettlesa zbliżenie powinno nastąpić bezpośrednio w dniu owulacji lub maksymalnie do 12 godzin przed jej wystąpieniem. Plemniki zawierające chromosom Y (męski) są szybsze i bardziej zwrotne niż plemniki z chromosomem X, lecz wykazują krótszą żywotność w drogach rodnych kobiety. Współżycie tuż przed pęknięciem pęcherzyka Graafa daje im przewagę w wyścigu do uwalnianej komórki jajowej."
+  },
+  {
+    q: "Kalkulator dni płodnych: kiedy począć dziewczynkę?",
+    a: "Planując poczęcie dziewczynki, zaleca się odbycie stosunku na 2 do 3 dni przed przewidywaną owulacją i powstrzymanie się od zbliżeń w dniu samej owulacji. Plemniki z chromosomem X (żeńskie) są cięższe i poruszają się wolniej, ale charakteryzują się znacznie dłuższą żywotnością w sprzyjającym środowisku śluzu szyjkowego (nawet do 5 dni). Gdy dochodzi do uwalniania komórki jajowej, szybkie plemniki Y często już obumarły, co zwiększa prawdopodobieństwo zapłodnienia przez plemnik X."
+  },
+  {
+    q: "Dni płodne – czy kalkulator jest dokładny?",
+    a: "Dokładność kalkulatora kalendarzowego zależy od powtarzalności Twoich cykli. Sam kalkulator wyznacza okienko płodne algorytmicznie na podstawie daty ostatniej miesiączki. Aby uzyskać najwyższą dokładność wyznaczenia dni płodnych, zaleca się łączenie wyliczeń kalendarzowych z codziennym pomiarem podstawowej temperatury ciała (PTC), obserwowaniem przezroczystego śluzu szyjkowego oraz wykonywaniem domowych testów owulacyjnych LH z moczu."
+  },
+  {
+    q: "Kalkulator dni płodnych: kiedy najlepiej zrobić test ciążowy?",
+    a: "Najlepszym momentem na wykonanie domowego testu ciążowego z moczu jest dzień spodziewanej miesiączki lub około 10-14 dni po wyznaczonej owulacji. W tym czasie dochodzi do implantacji zarodka w ścianie macicy, co inicjuje produkcję podjednostki beta hCG. Wykonanie czułego testu (o czułości 10 mIU/ml) z pierwszego moczu porannego zapewnia najbardziej miarodajny wynik. Badanie poziomu beta hCG z krwi obwodowej w laboratorium wykrywa ciążę jeszcze wcześniej – już 8-10 dni po zapłodnieniu."
+  },
+  {
+    q: "Dokładny kalkulator ciąży – który tydzień i dzień?",
+    a: "Dokładny kalkulator ciąży przedstawia wiek ciążowy w formacie ukończonych tygodni oraz dodatkowych dni (np. 8. tydzień + 3 dni, zapisywane jako 8w3d). Oznacza to, że pacjentka ukończyła pełne 8 tygodni ciąży i znajduje się w 4. dniu 9. tygodnia. Wyliczenie to opiera się na regule Naegelego ze skorygowaną długością cyklu, co umożliwia precyzyjne śledzenie etapów rozwoju płodu i planowanie obowiązkowych badań lekarskich."
+  },
+  {
+    q: "Który to tydzień ciąży? Jak oblicza to kalkulator?",
+    a: "Położniczy sposób obliczania wieku ciąży liczy się od pierwszego dnia ostatniej miesiączki (OM), a nie od dnia zapłodnienia. Wynika to z faktu, że dokładny moment owulacji i poczęcia jest trudny do uchwycenia, natomiast data miesiączki jest łatwa do ustalenia. W efekcie w momencie zapłodnienia kobieta biologicznie znajduje się już w około 2. tygodniu ciąży położniczej, a cała ciąża trwa umownie 40 tygodni (280 dni)."
+  },
+  {
+    q: "Kalkulator ciąży: jak sprawdzić, który to tydzień?",
+    a: "Wstępny wiek ciążowy oblicza kalkulator na podstawie daty ostatniej miesiączki. Jednak ostateczną i najbardziej precyzyjną weryfikacją tego, który to tydzień ciąży, jest pierwsze badanie USG wykonane między 11. a 14. tygodniem. Lekarz ginekolog mierzy wówczas długość ciemieniowo-siedzeniową płodu (parametr CRL). Jeśli różnica między wiekiem z miesiączki a USG przekracza 7 dni, termin porodu skorygowany badaniem ultrasonograficznym staje się obowiązujący."
+  },
+  {
+    q: "Jaki jest najdokładniejszy kalkulator dni płodnych?",
+    a: "Najdokładniejszy kalkulator dni płodnych to taki, który pozwala na personalizację długości cyklu oraz czasu trwania fazy lutealnej, a nie przyjmuje wyłącznie sztywnych 28 dni. Cyfrowe obliczenia stanowią jednak punkt wyjścia – maksymalną precyzję osiąga się łącząc kalendarz owulacji z wieloparametrową metodą objawowo-termiczną (obserwacja śluzu i temperatury) oraz aptecznymi testami LH."
+  }
+];
+---
+
+<section id="faq" class="py-12 sm:py-16 bg-[#fafafa] border-b border-[#ebebeb]">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6">
+    
+    <!-- Section Header -->
+    <div class="text-center space-y-3 mb-10">
+      <div class="mono-eyebrow text-[#0070f3]">Pytania i Odpowiedzi</div>
+      <h2 class="heading-lg text-[#171717]">Najczęściej Zadawane Pytania (FAQ)</h2>
+      <p class="body-md text-[#4d4d4d] max-w-xl mx-auto">
+        Odpowiedzi ekspertów na najważniejsze pytania dotyczące kalkulatora dni płodnych, owulacji oraz wyliczania tygodnia ciąży.
+      </p>
+    </div>
+
+    <!-- Search Input Filter -->
+    <div class="mb-6">
+      <input 
+        type="text" 
+        id="faq-search" 
+        placeholder="Szukaj w pytaniach (np. test ciążowy, dziewczynka, który tydzień)..."
+        class="text-input w-full bg-white shadow-2xs font-mono text-xs py-3 px-4 rounded-xl border border-[#ebebeb]"
+      />
+    </div>
+
+    <!-- FAQ Accordion / Details List -->
+    <div id="faq-list" class="space-y-3">
+      {faqs.map((faq) => (
+        <details class="faq-item group feature-card bg-white p-0 border border-[#ebebeb] rounded-xl overflow-hidden transition-all">
+          <summary class="faq-trigger flex items-center justify-between p-4 sm:p-5 text-left font-semibold text-sm sm:text-base text-[#171717] hover:bg-[#fafafa] cursor-pointer select-none">
+            <span>{faq.q}</span>
+            <span class="font-mono text-lg text-[#8f8f8f] group-open:rotate-45 transition-transform duration-200">+</span>
+          </summary>
+          <div class="p-4 sm:p-5 pt-0 border-t border-[#ebebeb]/60 text-xs sm:text-sm text-[#4d4d4d] leading-relaxed bg-[#fafafa]">
+            {faq.a}
+          </div>
+        </details>
+      ))}
+    </div>
+
+    <!-- Brief Medical Disclaimer Note per requirement -->
+    <div class="mt-8 p-4 rounded-xl bg-white border border-[#ebebeb] flex items-start gap-3 shadow-2xs">
+      <span class="text-base text-[#f5a623]">🩺</span>
+      <div class="text-xs text-[#8f8f8f] space-y-1">
+        <span class="font-semibold text-[#171717]">Uwaga medyczna:</span>
+        <p>
+          Prezentowane pytania i odpowiedzi oraz kalkulatory mają charakter wyłącznie informacyjny i edukacyjny. Wyniki nie stanowią diagnozy medycznej i nie zastępują indywidualnej konsultacji z lekarzem ginekologiem.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const faqSearch = document.getElementById('faq-search') as HTMLInputElement;
+  const faqItems = document.querySelectorAll('.faq-item');
+
+  // Search filter
+  faqSearch?.addEventListener('input', () => {
+    const query = faqSearch.value.toLowerCase().trim();
+
+    faqItems.forEach(item => {
+      const text = item.textContent?.toLowerCase() || '';
+      if (text.includes(query)) {
+        (item as HTMLElement).style.display = 'block';
+      } else {
+        (item as HTMLElement).style.display = 'none';
+      }
+    });
+  });
+</script>

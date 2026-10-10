@@ -1,0 +1,103 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Regulamin Serwisu | Kalkulator Dni Płodnych"
+  description="Regulamin korzystania z serwisu kalkulatordnipłodnych.com. Zasady korzystania z kalkulatora cyklu, prawa i obowiązki użytkowników oraz wyłączenie odpowiedzialności medycznej."
+  canonicalUrl="https://kalkulatordnipłodnych.com/regulamin"
+>
+  <Header />
+
+  <main class="py-12 sm:py-16 bg-[#fafafa]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
+      
+      <!-- Breadcrumb & Header -->
+      <div class="space-y-3">
+        <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-xs font-mono text-[#8f8f8f]">
+          <a href="/" class="hover:text-[#171717] transition-colors">Strona Główna</a>
+          <span>/</span>
+          <span class="text-[#171717]">Regulamin</span>
+        </nav>
+        <div class="mono-eyebrow text-[#0070f3]">Zasady Korzystania • Warunki Usługi</div>
+        <h1 class="display-xl text-[#171717]">Regulamin Serwisu</h1>
+        <p class="body-lg text-[#4d4d4d]">
+          Obowiązuje od dnia: <span class="font-mono">04.10.2026 r.</span>
+        </p>
+      </div>
+
+      <!-- Main Legal Content Card per DESIGN.md -->
+      <article class="feature-card bg-white p-6 sm:p-10 space-y-8 text-sm text-[#4d4d4d] leading-relaxed font-sans">
+        
+        <section class="space-y-3">
+          <h2 class="heading-md text-[#171717] text-lg border-b border-[#ebebeb] pb-2">
+            1. Postanowienia Ogólne
+          </h2>
+          <p>
+            Niniejszy Regulamin określa zasady korzystania z serwisu internetowego znajdującego się pod adresem <strong>kalkulatordnipłodnych.com</strong>. Każdy użytkownik z chwilą wejścia na stronę i rozpoczęcia korzystania z kalkulatora cyklu akceptuje postanowienia niniejszego Regulaminu.
+          </p>
+        </section>
+
+        <section class="space-y-3">
+          <h2 class="heading-md text-[#171717] text-lg border-b border-[#ebebeb] pb-2">
+            2. Charakter Usługi i Zastrzeżenie Medyczne
+          </h2>
+          <div class="p-4 rounded-xl bg-[#fafafa] border border-[#f5a623]/40 flex items-start gap-3">
+            <span class="text-lg text-[#f5a623]">⚠️</span>
+            <div class="space-y-1 text-xs text-[#171717]">
+              <span class="font-bold">Ważne Ostrzeżenie Medyczne:</span>
+              <p>
+                Wszystkie treści, algorytmy oraz wyliczenia prezentowane w serwisie mają charakter wyłącznie edukacyjny i informacyjny. Wyniki generowane przez kalkulatory nie stanowią diagnozy medycznej, porady lekarskiej ani recepty i nie mogą zastąpić indywidualnej konsultacji ze specjalistą ginekologii i położnictwa.
+              </p>
+              <p class="pt-1">
+                Serwis nie służy do prowadzenia naturalnej antykoncepcji ani nie stanowi gwarancji zapobieżenia ciąży.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="space-y-3">
+          <h2 class="heading-md text-[#171717] text-lg border-b border-[#ebebeb] pb-2">
+            3. Warunki Korzystania z Serwisu
+          </h2>
+          <ul class="list-disc pl-5 space-y-1.5 marker:text-[#171717]">
+            <li>Korzystanie z wszystkich kalkulatorów w serwisie jest całkowicie bezpłatne.</li>
+            <li>Dla prawidłowego działania narzędzi nie jest wymagana rejestracja ani tworzenie konta użytkownika.</li>
+            <li>Użytkownik zobowiązany jest do korzystania z serwisu w sposób zgodny z prawem oraz dobrymi obyczajami.</li>
+          </ul>
+        </section>
+
+        <section class="space-y-3">
+          <h2 class="heading-md text-[#171717] text-lg border-b border-[#ebebeb] pb-2">
+            4. Odpowiedzialność Administratora
+          </h2>
+          <p>
+            Administrator zakłada dołożenie należytej staranności, aby narzędzie działało w sposób nieprzerwany i bezbłędny. Ze względu na statystyczny charakter biologii cyklu menstruacyjnego Administrator nie ponosi odpowiedzialności za jakiekolwiek konsekwencje wynikające z podjęcia decyzji prokreacyjnych wyłącznie w oparciu o wyliczenia kalkulatora.
+          </p>
+        </section>
+
+        <section class="space-y-3">
+          <h2 class="heading-md text-[#171717] text-lg border-b border-[#ebebeb] pb-2">
+            5. Prawa Autorskie
+          </h2>
+          <p>
+            Prawa do układu strony, kodu źródłowego, elementów graficznych, arkuszy stylów oraz tekstu poradnika przysługują Administratorowi. Kopiowanie, rozpowszechnianie lub modyfikowanie serwisu bez pisemnej zgody Administratora jest zabronione.
+          </p>
+        </section>
+
+        <!-- Internal Links Block -->
+        <div class="pt-6 border-t border-[#ebebeb] flex flex-wrap gap-4 text-xs font-medium">
+          <a href="/polityka-prywatnosci" class="text-[#0070f3] hover:underline">Polityka Prywatności →</a>
+          <a href="/o-nas" class="text-[#0070f3] hover:underline">O Nas →</a>
+          <a href="/kontakt" class="text-[#0070f3] hover:underline">Kontakt →</a>
+        </div>
+
+      </article>
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

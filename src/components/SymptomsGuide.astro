@@ -1,0 +1,164 @@
+---
+---
+
+<section id="objawy" class="py-12 sm:py-16 bg-[#fafafa] border-b border-[#ebebeb]">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6">
+    
+    <!-- Section Header -->
+    <div class="text-center space-y-3 mb-10">
+      <div class="mono-eyebrow text-[#0070f3]">Rozpoznawanie Sygnałów Ciała</div>
+      <h2 class="heading-lg text-[#171717]">Główne Objawy Dni Płodnych i Owulacji</h2>
+      <p class="body-md text-[#4d4d4d] max-w-xl mx-auto">
+        Obliczenia kalendarzowe warto połączyć z bezpośrednią obserwacją objawów fizjologicznych organizmu.
+      </p>
+    </div>
+
+    <!-- Interactive Category Pills per DESIGN.md -->
+    <div class="flex flex-wrap items-center justify-center gap-2 mb-8">
+      <button type="button" data-tab="sluz" class="symptom-tab-btn btn-primary text-xs py-2 px-4 shadow-2xs">
+        💧 Śluz Szyjkowy
+      </button>
+      <button type="button" data-tab="temperatura" class="symptom-tab-btn btn-secondary text-xs py-2 px-4">
+        🌡️ Temperatura PTC
+      </button>
+      <button type="button" data-tab="testylh" class="symptom-tab-btn btn-secondary text-xs py-2 px-4">
+        🧪 Testy LH z Moczu
+      </button>
+      <button type="button" data-tab="bol" class="symptom-tab-btn btn-secondary text-xs py-2 px-4">
+        ⚡ Ból Owulacyjny & Libido
+      </button>
+    </div>
+
+    <!-- Tab Panels Container -->
+    <div class="max-w-3xl mx-auto">
+      
+      <!-- Panel 1: Cervical Mucus -->
+      <div id="panel-sluz" class="symptom-panel feature-card bg-white space-y-4">
+        <div class="flex items-center justify-between border-b border-[#ebebeb] pb-3">
+          <h3 class="heading-md text-[#171717] flex items-center gap-2">
+            💧 Śluz Szyjkowy w Poszczególnych Fazach Cyklu
+          </h3>
+          <span class="mono-eyebrow text-[#10b981]">Najważniejsza Obserwacja</span>
+        </div>
+        <p class="body-md text-[#4d4d4d]">
+          Pod wpływem rosnącego stężenia estrogenów śluz szyjki macicy zmienia swoją konsystencję, stając się idealnym środowiskiem odżywczym i transportowym dla plemników.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+          <div class="p-3.5 rounded-xl border border-[#ebebeb] bg-[#fafafa]">
+            <div class="font-semibold text-xs text-[#171717]">Dni Niepłodne (Sucho)</div>
+            <div class="text-[11px] text-[#8f8f8f] mt-1">Brak śluzu lub śluz gęsty, lepki, białawy, nieprzezroczysty. Uniemożliwia ruch plemników.</div>
+          </div>
+          <div class="p-3.5 rounded-xl border border-[#ebebeb] bg-[#fafafa]">
+            <div class="font-semibold text-xs text-[#0070f3]">Śluz Płodny (Przejściowy)</div>
+            <div class="text-[11px] text-[#8f8f8f] mt-1">Mętny, wilgotny, nieco rozciągliwy. Plemniki mogą przetrwać do 2-3 dni.</div>
+          </div>
+          <div class="p-3.5 rounded-xl border border-[#10b981]/40 bg-[#10b981]/5">
+            <div class="font-semibold text-xs text-[#10b981]">Szczyt Śluzu (Wysoce Płodny)</div>
+            <div class="text-[11px] text-[#171717] mt-1">Przezroczysty, rozciągliwy jak białko surowego jaja, śliski. Najwyższa płodność!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2: PTC Temperature -->
+      <div id="panel-temperatura" class="symptom-panel feature-card bg-white space-y-4 hidden">
+        <div class="flex items-center justify-between border-b border-[#ebebeb] pb-3">
+          <h3 class="heading-md text-[#171717] flex items-center gap-2">
+            🌡️ Metoda Termiczna (Podstawowa Temperatura Ciała)
+          </h3>
+          <span class="mono-eyebrow text-[#0070f3]">Skok Progesteronu</span>
+        </div>
+        <p class="body-md text-[#4d4d4d]">
+          Mierzenie temperatury zaraz po przebudzeniu, przed wstaniem z łóżka, tą samą metodą (termometrem owulacyjnym z dwoma miejscami po przecinku).
+        </p>
+
+        <div class="p-4 rounded-xl border border-[#ebebeb] bg-[#fafafa] space-y-2 text-xs">
+          <div class="flex items-center justify-between">
+            <span class="font-semibold text-[#171717]">Przed owulacją (Faza Folikularna):</span>
+            <span class="font-mono text-[#8f8f8f]">Niska temperatura (np. 36.20 - 36.50 °C)</span>
+          </div>
+          <div class="flex items-center justify-between border-t border-[#ebebeb] pt-2">
+            <span class="font-semibold text-[#10b981]">Po owulacji (Skok PTC):</span>
+            <span class="font-mono text-[#10b981] font-bold">Wzrost o 0.2 - 0.5 °C (np. 36.70 °C)</span>
+          </div>
+          <p class="text-[11px] text-[#8f8f8f] pt-1">
+            Wzrost temperatury potwierdza, że owulacja już się odbyła (dzięki ciałku żółtemu wydzielającemu progesteron).
+          </p>
+        </div>
+      </div>
+
+      <!-- Panel 3: LH Tests -->
+      <div id="panel-testylh" class="symptom-panel feature-card bg-white space-y-4 hidden">
+        <div class="flex items-center justify-between border-b border-[#ebebeb] pb-3">
+          <h3 class="heading-md text-[#171717] flex items-center gap-2">
+            🧪 Domowe Testy Owulacyjne LH z Moczu
+          </h3>
+          <span class="mono-eyebrow text-[#7928ca]">Pik Luteotropiny</span>
+        </div>
+        <p class="body-md text-[#4d4d4d]">
+          Testy owulacyjne wykrywają nagły wzrost hormonu luteinizującego (LH) w moczu, który wywołuje pęknięcie pęcherzyka Graafa.
+        </p>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div class="p-3.5 rounded-xl border border-[#ebebeb] bg-[#fafafa]">
+            <div class="font-semibold text-[#171717]">Wynik Pozytywny (Pik LH):</div>
+            <p class="text-[#8f8f8f] mt-1">Kreska testowa jest tak samo ciemna lub ciemniejsza od kreski kontrolnej. Owulacja nastąpi w ciągu 24-36 godzin!</p>
+          </div>
+          <div class="p-3.5 rounded-xl border border-[#ebebeb] bg-[#fafafa]">
+            <div class="font-semibold text-[#171717]">Wskazówka Wykonania:</div>
+            <p class="text-[#8f8f8f] mt-1">Nie używaj pierwszego porannego moczu. Najlepiej wykonywać testy między godziną 10:00 a 20:00 codziennie o tej samej porze.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 4: Pain & Libido -->
+      <div id="panel-bol" class="symptom-panel feature-card bg-white space-y-4 hidden">
+        <div class="flex items-center justify-between border-b border-[#ebebeb] pb-3">
+          <h3 class="heading-md text-[#171717] flex items-center gap-2">
+            ⚡ Ból Owulacyjny, Tkliwość Piersi i Wzrost Libido
+          </h3>
+          <span class="mono-eyebrow text-[#eb367f]">Sygnały Ciała</span>
+        </div>
+        <div class="space-y-3 text-xs text-[#4d4d4d]">
+          <div class="p-3 rounded-lg border border-[#ebebeb] bg-[#fafafa]">
+            <span class="font-semibold text-[#171717]">Ból owulacyjny (Mittelschmerz):</span> Krótkotrwałe kłucie w dole brzucha (z reguły po stronie jajnika, z którego uwalniana jest komórka jajowa).
+          </div>
+          <div class="p-3 rounded-lg border border-[#ebebeb] bg-[#fafafa]">
+            <span class="font-semibold text-[#171717]">Naturalny wzrost libido:</span> Biologiczny mechanizm wywołany szczytem estrogenów, zachęcający do zbliżenia w najbardziej płodnym czasie.
+          </div>
+          <div class="p-3 rounded-lg border border-[#ebebeb] bg-[#fafafa]">
+            <span class="font-semibold text-[#171717]">Tkliwość piersi i delikatne plamienie:</span> Spadek estrogenów tuż po owulacji może wywołać wrażliwość gruczołów piersiowych oraz mikroplamienie owulacyjne.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const tabBtns = document.querySelectorAll('.symptom-tab-btn');
+  const panels = document.querySelectorAll('.symptom-panel');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-tab');
+
+      tabBtns.forEach(b => {
+        b.classList.remove('btn-primary');
+        b.classList.add('btn-secondary');
+      });
+      btn.classList.remove('btn-secondary');
+      btn.classList.add('btn-primary');
+
+      panels.forEach(p => {
+        if (p.id === `panel-${targetId}`) {
+          p.classList.remove('hidden');
+        } else {
+          p.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>

@@ -1,0 +1,185 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Kontakt | Kalkulator Dni Płodnych"
+  description="Skontaktuj się z zespołem kalkulatordnipłodnych.com. Masz pytania dotyczące kalkulatora, sugestie lub uwagi? Wyślij wiadomość przez formularz kontaktowy."
+  canonicalUrl="https://kalkulatordnipłodnych.com/kontakt"
+>
+  <Header />
+
+  <main class="py-12 sm:py-16 bg-[#fafafa]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
+      
+      <!-- Breadcrumb & Header -->
+      <div class="space-y-3 text-center sm:text-left">
+        <nav aria-label="Breadcrumb" class="flex items-center justify-center sm:justify-start gap-2 text-xs font-mono text-[#8f8f8f]">
+          <a href="/" class="hover:text-[#171717] transition-colors">Strona Główna</a>
+          <span>/</span>
+          <span class="text-[#171717]">Kontakt</span>
+        </nav>
+        <div class="mono-eyebrow text-[#0070f3]">Napisz do Nas • Obsługa i Pomoc</div>
+        <h1 class="display-xl text-[#171717]">Skontaktuj się z Nami</h1>
+        <p class="body-lg text-[#4d4d4d] max-w-xl">
+          Masz uwagi do działania kalkulatora, propozycje współpracy lub pytania? Jesteśmy do Twojej dyspozycji.
+        </p>
+      </div>
+
+      <!-- Main Layout: Contact Info + Form Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+        
+        <!-- Contact Information Side Card (5 cols) -->
+        <div class="md:col-span-5 feature-card bg-white space-y-6">
+          <div class="border-b border-[#ebebeb] pb-3">
+            <h2 class="heading-md text-[#171717] text-base">Dane Kontaktowe</h2>
+            <p class="text-xs text-[#8f8f8f] mt-0.5">Biuro Serwisu kalkulatordnipłodnych.com</p>
+          </div>
+
+          <div class="space-y-4 text-xs">
+            <div class="flex items-start gap-3">
+              <span class="text-base text-[#0070f3]">✉️</span>
+              <div>
+                <div class="font-semibold text-[#171717]">Adres E-mail</div>
+                <a href="mailto:kontakt@kalkulatordnipłodnych.com" class="font-mono text-[#0070f3] hover:underline">
+                  kontakt@kalkulatordnipłodnych.com
+                </a>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="text-base text-[#0070f3]">📞</span>
+              <div>
+                <div class="font-semibold text-[#171717]">Infolinia Techniczna</div>
+                <div class="font-mono text-[#171717]">+48 22 890 12 34</div>
+                <div class="text-[11px] text-[#8f8f8f]">Pn. – Pt. w godz. 9:00 – 17:00</div>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="text-base text-[#0070f3]">🏢</span>
+              <div>
+                <div class="font-semibold text-[#171717]">Siedziba</div>
+                <div class="text-[#4d4d4d]">ul. Marszałkowska 100/102</div>
+                <div class="font-mono text-[#8f8f8f]">00-017 Warszawa, Polska</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-[#fafafa] border border-[#ebebeb] text-[11px] text-[#4d4d4d]">
+            <span class="font-semibold text-[#171717]">Czas odpowiedzi:</span> Odpowiadamy na wszystkie wiadomości zazwyczaj w ciągu 24 godzin roboczych.
+          </div>
+        </div>
+
+        <!-- Client-Side Interactive Contact Form (7 cols) -->
+        <div class="md:col-span-7 feature-card bg-white space-y-6">
+          <div class="border-b border-[#ebebeb] pb-3">
+            <h2 class="heading-md text-[#171717] text-base">Wyślij Wiadomość</h2>
+            <p class="text-xs text-[#8f8f8f] mt-0.5">Wypełnij poniższe pola formularza</p>
+          </div>
+
+          <form id="contact-form" class="space-y-4">
+            
+            <!-- Success / Alert Banner -->
+            <div id="form-alert" class="hidden p-3.5 rounded-xl text-xs font-medium border"></div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="space-y-1.5">
+                <label for="contact-name" class="block text-xs font-medium text-[#171717] uppercase tracking-wider">
+                  Imię i Nazwisko: *
+                </label>
+                <input 
+                  type="text" 
+                  id="contact-name" 
+                  required
+                  placeholder="np. Anna Kowalska" 
+                  class="text-input w-full font-sans text-xs"
+                />
+              </div>
+
+              <div class="space-y-1.5">
+                <label for="contact-email" class="block text-xs font-medium text-[#171717] uppercase tracking-wider">
+                  Adres E-mail: *
+                </label>
+                <input 
+                  type="email" 
+                  id="contact-email" 
+                  required
+                  placeholder="anna@example.pl" 
+                  class="text-input w-full font-mono text-xs"
+                />
+              </div>
+            </div>
+
+            <div class="space-y-1.5">
+              <label for="contact-subject" class="block text-xs font-medium text-[#171717] uppercase tracking-wider">
+                Temat wiadomości: *
+              </label>
+              <select id="contact-subject" required class="text-input w-full font-sans text-xs bg-white">
+                <option value="pytanie">Pytanie dotyczące kalkulatora</option>
+                <option value="sugestia">Sugestia / Zgłoszenie błędu</option>
+                <option value="wspolpraca">Współpraca / Reklama</option>
+                <option value="inne">Inna sprawa</option>
+              </select>
+            </div>
+
+            <div class="space-y-1.5">
+              <label for="contact-message" class="block text-xs font-medium text-[#171717] uppercase tracking-wider">
+                Treść wiadomości: *
+              </label>
+              <textarea 
+                id="contact-message" 
+                rows="5" 
+                required
+                placeholder="Wpisz treść swojej wiadomości..." 
+                class="text-input w-full font-sans text-xs resize-y"
+              ></textarea>
+            </div>
+
+            <div class="pt-2">
+              <button 
+                type="submit" 
+                id="contact-submit-btn" 
+                class="btn-primary w-full sm:w-auto px-6 py-2.5 text-xs font-semibold shadow-sm"
+              >
+                Wyślij Wiadomość
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  const contactForm = document.getElementById('contact-form') as HTMLFormElement;
+  const formAlert = document.getElementById('form-alert');
+  const submitBtn = document.getElementById('contact-submit-btn') as HTMLButtonElement;
+
+  contactForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if (!formAlert || !submitBtn) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Wysyłanie...';
+
+    setTimeout(() => {
+      formAlert.classList.remove('hidden', 'bg-[#ee0000]/10', 'border-[#ee0000]', 'text-[#ee0000]');
+      formAlert.classList.add('bg-[#10b981]/10', 'border-[#10b981]', 'text-[#10b981]');
+      formAlert.textContent = 'Dziękujemy! Twoja wiadomość została pomyślnie wysłana. Odpowiemy najszybciej jak to możliwe.';
+
+      contactForm.reset();
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Wyślij Wiadomość';
+    }, 800);
+  });
+</script>

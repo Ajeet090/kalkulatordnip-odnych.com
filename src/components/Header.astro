@@ -1,0 +1,95 @@
+---
+---
+
+<header class="sticky top-0 z-50 bg-[#fafafa]/90 backdrop-blur-md border-b border-[#ebebeb]">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <!-- Brand Logo -->
+    <a href="/" class="flex items-center gap-2.5 group">
+      <div class="w-8 h-8 rounded-lg bg-[#171717] text-white flex items-center justify-center font-bold text-sm shadow-sm transition-transform group-hover:scale-105">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current text-white" viewBox="0 0 24 24">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      </div>
+      <span class="font-semibold text-sm tracking-tight text-[#171717]">kalkulatordnipłodnych</span>
+    </a>
+
+    <!-- Desktop Nav Links -->
+    <nav class="hidden md:flex items-center gap-1 bg-white border border-[#ebebeb] px-3 py-1 rounded-full shadow-2xs">
+      <a href="/#kalkulator" class="px-3 py-1.5 text-xs font-medium text-[#4d4d4d] hover:text-[#171717] rounded-full transition-colors">
+        Kalkulator Płodności
+      </a>
+      <a href="/#kalendarz" class="px-3 py-1.5 text-xs font-medium text-[#4d4d4d] hover:text-[#171717] rounded-full transition-colors">
+        Kalendarz Owulacji
+      </a>
+      <a href="/#kalkulator-ciazy" class="px-3 py-1.5 text-xs font-medium text-[#4d4d4d] hover:text-[#171717] rounded-full transition-colors">
+        Kalkulator Ciąży
+      </a>
+      <a href="/o-nas" class="px-3 py-1.5 text-xs font-medium text-[#4d4d4d] hover:text-[#171717] rounded-full transition-colors">
+        O Nas
+      </a>
+      <a href="/kontakt" class="px-3 py-1.5 text-xs font-medium text-[#4d4d4d] hover:text-[#171717] rounded-full transition-colors">
+        Kontakt
+      </a>
+    </nav>
+
+    <!-- Quick Action CTAs -->
+    <div class="hidden sm:flex items-center gap-2">
+      <a href="/#kalkulator-ciazy" class="btn-ghost-sm">
+        Termin Porodu
+      </a>
+      <a href="/#kalkulator" class="btn-primary-sm">
+        Oblicz Cykl
+      </a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button 
+      id="mobile-menu-btn" 
+      class="md:hidden p-2 text-[#171717] hover:bg-[#f2f2f2] rounded-md transition-colors"
+      aria-label="Otwórz menu nawigacji"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Dropdown Menu -->
+  <div id="mobile-menu" class="hidden md:hidden border-b border-[#ebebeb] bg-white px-4 py-3 space-y-2">
+    <a href="/#kalkulator" class="block px-3 py-2 rounded-md text-sm font-medium text-[#171717] hover:bg-[#fafafa]">
+      🌸 Kalkulator Dni Płodnych
+    </a>
+    <a href="/#kalendarz" class="block px-3 py-2 rounded-md text-sm font-medium text-[#171717] hover:bg-[#fafafa]">
+      📅 Kalendarz Cyklu
+    </a>
+    <a href="/#kalkulator-ciazy" class="block px-3 py-2 rounded-md text-sm font-medium text-[#171717] hover:bg-[#fafafa]">
+      👶 Kalkulator Ciąży i Porodu
+    </a>
+    <a href="/o-nas" class="block px-3 py-2 rounded-md text-sm font-medium text-[#171717] hover:bg-[#fafafa]">
+      ℹ️ O Nas
+    </a>
+    <a href="/kontakt" class="block px-3 py-2 rounded-md text-sm font-medium text-[#171717] hover:bg-[#fafafa]">
+      ✉️ Kontakt
+    </a>
+    <div class="pt-2 border-t border-[#ebebeb] flex gap-2">
+      <a href="/#kalkulator" class="w-full text-center btn-primary-sm py-2">
+        Rozpocznij Obliczenia
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+
+  btn?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+  });
+
+  menu?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      menu.classList.add('hidden');
+    });
+  });
+</script>

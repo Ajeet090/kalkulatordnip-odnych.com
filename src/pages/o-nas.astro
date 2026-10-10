@@ -1,0 +1,116 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="O Nas | Kalkulator Dni Płodnych i Owulacji"
+  description="Poznaj misję serwisu kalkulatordnipłodnych.com. Dowiedz się, dlaczego tworzymy najdokładniejszy, całkowicie prywatny kalkulator płodności w Polsce."
+  canonicalUrl="https://kalkulatordnipłodnych.com/o-nas"
+>
+  <Header />
+
+  <main class="py-12 sm:py-16 bg-[#fafafa]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
+      
+      <!-- Breadcrumb & Header -->
+      <div class="space-y-3">
+        <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-xs font-mono text-[#8f8f8f]">
+          <a href="/" class="hover:text-[#171717] transition-colors">Strona Główna</a>
+          <span>/</span>
+          <span class="text-[#171717]">O Nas</span>
+        </nav>
+        <div class="mono-eyebrow text-[#7928ca]">O Projekcie • Nasza Misja</div>
+        <h1 class="display-xl text-[#171717]">Niezależne Narzędzie Płodności</h1>
+        <p class="body-lg text-[#4d4d4d]">
+          Tworzymy nowoczesne i całkowicie bezpieczne narzędzia wspierające kobiety w zrozumieniu fizjologii własnego ciała.
+        </p>
+      </div>
+
+      <!-- Main Content Card per DESIGN.md -->
+      <article class="feature-card bg-white p-6 sm:p-10 space-y-8 text-sm text-[#4d4d4d] leading-relaxed font-sans">
+        
+        <section class="space-y-3">
+          <h2 class="heading-md text-[#171717] text-lg border-b border-[#ebebeb] pb-2">
+            1. Kim Jesteśmy i Co Tworzymy?
+          </h2>
+          <p>
+            Portal <strong>kalkulatordnipłodnych.com</strong> powstał z inicjatywy zespołu inżynierów oprogramowania oraz konsultantów z zakresu zdrowia prokreacyjnego. Zauważyliśmy, że większość istniejących w polskim internecie kalkulatorów owulacyjnych cierpi na poważne wady: wymaga uciążliwej rejestracji, przeładowana jest natrętnymi reklamami lub opiera się na przestarzałych sztywnych wzorach zakładających 28-dniowy cykl u każdej kobiety.
+          </p>
+          <p>
+            Postanowiliśmy stworzyć narzędzie inne – szybkie, bezpłatne, zorientowane na prywatność użytkowniczek i zgodne z najnowszą wiedzą medyczną.
+          </p>
+        </section>
+
+        <!-- 4 Core Pillars Grid -->
+        <section class="space-y-3">
+          <h2 class="heading-md text-[#171717] text-lg border-b border-[#ebebeb] pb-2">
+            2. Filary Naszego Projektu
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <div class="p-4 rounded-xl border border-[#ebebeb] bg-[#fafafa] space-y-2">
+              <div class="flex items-center gap-2">
+                <span class="text-base">🔐</span>
+                <h3 class="font-semibold text-xs text-[#171717]">100% Prywatność i Brak Rejestracji</h3>
+              </div>
+              <p class="text-xs text-[#8f8f8f]">
+                Wszystkie obliczenia odbywają się lokalnie w Twojej przeglądarce. Nie przechowujemy Twoich danych medycznych w chmurze ani nie prosimy o adres e-mail.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-[#ebebeb] bg-[#fafafa] space-y-2">
+              <div class="flex items-center gap-2">
+                <span class="text-base">📊</span>
+                <h3 class="font-semibold text-xs text-[#171717]">Personalizacja Fazy Lutealnej</h3>
+              </div>
+              <p class="text-xs text-[#8f8f8f]">
+                Jako nieliczni umożliwiamy płynne dostosowanie długości fazy poowulacyjnej (10–16 dni), co gwarantuje najwyższą precyzję u kobiet o niestandardowych cyklach.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-[#ebebeb] bg-[#fafafa] space-y-2">
+              <div class="flex items-center gap-2">
+                <span class="text-base">🖨️</span>
+                <h3 class="font-semibold text-xs text-[#171717]">Generowanie Raportu dla Ginekologa</h3>
+              </div>
+              <p class="text-xs text-[#8f8f8f]">
+                Jednym kliknięciem możesz wygenerować czytelny dokument PDF z terminami USG i badania progesteronu, gotowy na wizytę lekarską.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-[#ebebeb] bg-[#fafafa] space-y-2">
+              <div class="flex items-center gap-2">
+                <span class="text-base">⚡</span>
+                <h3 class="font-semibold text-xs text-[#171717]">Brak Reklam i Błyskawiczne Działanie</h3>
+              </div>
+              <p class="text-xs text-[#8f8f8f]">
+                Strona stworzona w technologii Astro.js ładuje się w ułamku sekundy na smartfonach i komputerach, pozwalając skupić się na najważniejszych informacjach.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="space-y-3">
+          <h2 class="heading-md text-[#171717] text-lg border-b border-[#ebebeb] pb-2">
+            3. Standardy Medyczne i Podstawa Algorytmu
+          </h2>
+          <p>
+            Wzorzec wyliczeń stosowany na naszej stronie bazuje na zmodyfikowanej <strong>regule Naegelego</strong> rekomendowanej przez Polskie Towarzystwo Ginekologów i Położników (PTGP) oraz na badaniach statystycznych dr. Allena Wilcoxa dotyczących prawdopodobieństwa poczęcia w poszczególne dni okna płodnego.
+          </p>
+        </section>
+
+        <!-- Internal Links Block -->
+        <div class="pt-6 border-t border-[#ebebeb] flex flex-wrap gap-4 text-xs font-medium">
+          <a href="/" class="text-[#0070f3] hover:underline">← Wypróbuj Kalkulator Dni Płodnych</a>
+          <a href="/polityka-prywatnosci" class="text-[#0070f3] hover:underline">Polityka Prywatności →</a>
+          <a href="/kontakt" class="text-[#0070f3] hover:underline">Skontaktuj się z nami →</a>
+        </div>
+
+      </article>
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

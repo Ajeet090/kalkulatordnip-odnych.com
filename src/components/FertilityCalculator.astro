@@ -1,0 +1,431 @@
+---
+---
+
+<section id="kalkulator" class="py-12 sm:py-16 bg-white border-b border-[#ebebeb]">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6">
+    
+    <!-- Section Header -->
+    <div class="text-center space-y-3 mb-10">
+      <div class="mono-eyebrow text-[#0070f3]">Precyzyjne Obliczenia</div>
+      <h2 class="heading-lg text-[#171717]">Kalkulator Dni Płodnych i Owulacji</h2>
+      <p class="body-md text-[#4d4d4d] max-w-xl mx-auto">
+        Uzupełnij poniższe dane o swoim cyklu menstruacyjnym, aby natychmiast poznać swoje okienko płodności oraz dzień owulacji.
+      </p>
+    </div>
+
+    <!-- Main Grid: Controls + Results -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Input Panel (5 cols) -->
+      <div class="lg:col-span-5 feature-card space-y-6">
+        <div class="flex items-center justify-between border-b border-[#ebebeb] pb-3">
+          <h3 class="heading-md text-[#171717] flex items-center gap-2">
+            <svg class="w-5 h-5 text-[#0070f3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            Dane Cyklu
+          </h3>
+          <span class="text-xs font-mono text-[#8f8f8f]">Krok 1 z 2</span>
+        </div>
+
+        <!-- LMP Input -->
+        <div class="space-y-2">
+          <label for="lmp-date" class="block text-xs font-medium text-[#171717] uppercase tracking-wider">
+            Pierwszy dzień ostatniej miesiączki:
+          </label>
+          <input 
+            type="date" 
+            id="lmp-date" 
+            class="text-input w-full font-mono text-sm shadow-2xs focus:outline-none focus:ring-2 focus:ring-[#0070f3] focus:border-transparent"
+          />
+          <p class="text-xs text-[#8f8f8f]">Wskaż pierwszy dzień krwawienia w ostatnim cyklu.</p>
+        </div>
+
+        <!-- Cycle Length Input -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center">
+            <label for="cycle-length" class="block text-xs font-medium text-[#171717] uppercase tracking-wider">
+              Średnia długość cyklu:
+            </label>
+            <span id="cycle-length-val" class="font-mono text-sm font-semibold text-[#0070f3] bg-[#d3e5ff]/50 px-2 py-0.5 rounded">28 dni</span>
+          </div>
+          <input 
+            type="range" 
+            id="cycle-length" 
+            min="20" 
+            max="45" 
+            value="28" 
+            class="w-full accent-[#171717] cursor-pointer"
+          />
+          <div class="flex justify-between text-[11px] text-[#8f8f8f] font-mono">
+            <span>20 dni</span>
+            <span>28 dni (standard)</span>
+            <span>45 dni</span>
+          </div>
+        </div>
+
+        <!-- Advanced Toggle: Luteal Phase -->
+        <div class="border-t border-[#ebebeb] pt-4 space-y-3">
+          <button 
+            type="button" 
+            id="toggle-advanced-btn" 
+            class="flex items-center justify-between w-full text-xs font-medium text-[#4d4d4d] hover:text-[#171717]"
+          >
+            <span class="flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-[#0070f3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+              </svg>
+              Zaawansowane: Długość fazy lutealnej
+            </span>
+            <span id="advanced-chevron" class="transition-transform duration-200">▼</span>
+          </button>
+
+          <div id="advanced-settings" class="hidden space-y-2 pt-2 bg-[#fafafa] p-3 rounded-lg border border-[#ebebeb]">
+            <div class="flex justify-between items-center">
+              <label for="luteal-length" class="text-xs font-medium text-[#171717]">Faza lutealna (po owulacji):</label>
+              <span id="luteal-length-val" class="font-mono text-xs font-semibold text-[#171717]">14 dni</span>
+            </div>
+            <input 
+              type="range" 
+              id="luteal-length" 
+              min="10" 
+              max="16" 
+              value="14" 
+              class="w-full accent-[#171717] cursor-pointer"
+            />
+            <p class="text-[11px] text-[#8f8f8f]">Domyślnie faza lutealna trwa 14 dni. Dostosuj, jeśli znasz dokładny czas trwania fazy poowulacyjnej.</p>
+          </div>
+        </div>
+
+        <button 
+          type="button" 
+          id="calculate-btn" 
+          class="btn-primary w-full shadow-sm py-3 text-sm font-semibold tracking-wide"
+        >
+          Przelicz Kalendarz Płodności
+        </button>
+      </div>
+
+      <!-- Results Display (7 cols) -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <!-- Summary Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          
+          <!-- Ovulation Card -->
+          <div class="feature-card-elevated relative overflow-hidden bg-gradient-to-br from-white to-[#fafafa]">
+            <div class="absolute top-0 right-0 w-16 h-16 bg-[#50e3c2]/10 rounded-bl-full pointer-events-none"></div>
+            <div class="mono-eyebrow text-[#0070f3] mb-1">Przewidywana Owulacja</div>
+            <div id="res-ovulation-date" class="font-mono text-xl sm:text-2xl font-bold text-[#171717]">
+              --.--.----
+            </div>
+            <div id="res-ovulation-day" class="text-xs font-medium text-[#8f8f8f] mt-1">
+              Wybierz datę powyżej
+            </div>
+            <div class="mt-3 pt-2 border-t border-[#ebebeb] text-[11px] text-[#4d4d4d] flex items-center gap-1">
+              <span class="inline-block w-2 h-2 rounded-full bg-[#10b981]"></span>
+              Szczytowy dzień płodności (jajeczko żyje 12-24h)
+            </div>
+          </div>
+
+          <!-- Fertile Window Card -->
+          <div class="feature-card-elevated relative overflow-hidden bg-gradient-to-br from-white to-[#fafafa]">
+            <div class="absolute top-0 right-0 w-16 h-16 bg-[#7928ca]/10 rounded-bl-full pointer-events-none"></div>
+            <div class="mono-eyebrow text-[#7928ca] mb-1">Okienko Płodności</div>
+            <div id="res-fertile-window" class="font-mono text-base sm:text-lg font-bold text-[#171717]">
+              --.--.---- – --.--.----
+            </div>
+            <div id="res-fertile-days-count" class="text-xs font-medium text-[#8f8f8f] mt-1">
+              Łącznie 6 dni najwyższych szans
+            </div>
+            <div class="mt-3 pt-2 border-t border-[#ebebeb] text-[11px] text-[#4d4d4d] flex items-center gap-1">
+              <span class="inline-block w-2 h-2 rounded-full bg-[#7928ca]"></span>
+              Plemniki zachowują żywotność do 5 dni
+            </div>
+          </div>
+
+          <!-- Next Period Card -->
+          <div class="feature-card border-l-4 border-l-[#eb367f]">
+            <div class="mono-eyebrow text-[#8f8f8f] mb-1">Następna Miesiączka</div>
+            <div id="res-next-period" class="font-mono text-lg font-semibold text-[#171717]">
+              --.--.----
+            </div>
+            <div class="text-xs text-[#8f8f8f] mt-0.5">Początek kolejnego cyklu</div>
+          </div>
+
+          <!-- Pregnancy Test Date -->
+          <div class="feature-card border-l-4 border-l-[#0070f3]">
+            <div class="mono-eyebrow text-[#8f8f8f] mb-1">Test Ciążowy (Najwcześniej)</div>
+            <div id="res-pregnancy-test" class="font-mono text-lg font-semibold text-[#171717]">
+              --.--.----
+            </div>
+            <div class="text-xs text-[#8f8f8f] mt-0.5">Optymalne stężenie hormonu hCG</div>
+          </div>
+        </div>
+
+        <!-- Daily Conception Odds Visualizer -->
+        <div class="feature-card space-y-4">
+          <div class="flex items-center justify-between border-b border-[#ebebeb] pb-3">
+            <h4 class="heading-md text-sm text-[#171717]">Szacowane Prawdopodobieństwo Poczęcia w Okienku Płodnym</h4>
+            <span class="mono-eyebrow text-[10px] text-[#8f8f8f]">Badania Wilcox et al.</span>
+          </div>
+
+          <!-- Side-by-side Layout: Pie Chart (Left) + Daily Bars (Right) -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start pt-1">
+            
+            <!-- Left Column: Donut / Pie Chart & Legend -->
+            <div class="md:col-span-5 bg-[#fafafa] p-4 rounded-xl border border-[#ebebeb] space-y-3">
+              <div class="text-[11px] font-mono text-[#8f8f8f] uppercase tracking-wider text-center">
+                Rozkład Prawdopodobieństwa
+              </div>
+              
+              <!-- SVG Donut Chart -->
+              <div class="flex justify-center py-1">
+                <svg id="conception-pie" viewBox="0 0 160 160" width="140" height="140" role="img" aria-label="Kołowy wykres prawdopodobieństwa poczęcia" class="drop-shadow-2xs">
+                  <circle cx="80" cy="80" r="54" fill="#f5f5f5" />
+                  <g id="pie-segments"></g>
+                  <!-- Centre label -->
+                  <circle cx="80" cy="80" r="36" fill="white" />
+                  <text x="80" y="76" text-anchor="middle" font-size="11" font-family="monospace" fill="#171717" font-weight="700">136%</text>
+                  <text x="80" y="89" text-anchor="middle" font-size="8" font-family="monospace" fill="#8f8f8f">łącznie</text>
+                </svg>
+              </div>
+
+              <!-- Legend -->
+              <div id="pie-legend" class="grid grid-cols-1 gap-1.5 text-[11px] w-full pt-2 border-t border-[#ebebeb]">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+
+            <!-- Right Column: Detailed Daily Odds Bars -->
+            <div class="md:col-span-7 space-y-2">
+              <div id="odds-bars-container" class="space-y-2">
+                <!-- Populated dynamically by JS -->
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Actions: Print / Save -->
+        <div class="flex flex-wrap items-center justify-between gap-3 p-4 rounded-xl bg-[#fafafa] border border-[#ebebeb]">
+          <div class="text-xs text-[#4d4d4d]">
+            <span class="font-semibold text-[#171717]">Potrzebujesz dokumentacji?</span> Wygeneruj podsumowanie cyklu w wersji do druku dla swojego ginekologa.
+          </div>
+          <button 
+            type="button" 
+            id="print-report-btn" 
+            class="btn-secondary text-xs py-2 px-4 shadow-2xs hover:bg-white"
+          >
+            🖨️ Drukuj Raport Cyklu
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // DOM Elements
+  const lmpInput = document.getElementById('lmp-date') as HTMLInputElement;
+  const cycleLengthInput = document.getElementById('cycle-length') as HTMLInputElement;
+  const cycleLengthVal = document.getElementById('cycle-length-val');
+  const lutealLengthInput = document.getElementById('luteal-length') as HTMLInputElement;
+  const lutealLengthVal = document.getElementById('luteal-length-val');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const toggleAdvancedBtn = document.getElementById('toggle-advanced-btn');
+  const advancedSettings = document.getElementById('advanced-settings');
+  const advancedChevron = document.getElementById('advanced-chevron');
+
+  // Result Elements
+  const resOvulationDate = document.getElementById('res-ovulation-date');
+  const resOvulationDay = document.getElementById('res-ovulation-day');
+  const resFertileWindow = document.getElementById('res-fertile-window');
+  const resNextPeriod = document.getElementById('res-next-period');
+  const resPregnancyTest = document.getElementById('res-pregnancy-test');
+  const oddsBarsContainer = document.getElementById('odds-bars-container');
+
+  // Polish Days & Months
+  const daysPl = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
+
+  // Initialize Default Date: 14 days ago from today
+  const today = new Date();
+  const defaultLmp = new Date(today);
+  defaultLmp.setDate(today.getDate() - 14);
+  
+  if (lmpInput) {
+    lmpInput.value = defaultLmp.toISOString().split('T')[0];
+    lmpInput.max = today.toISOString().split('T')[0];
+  }
+
+  // Toggle Advanced Settings
+  toggleAdvancedBtn?.addEventListener('click', () => {
+    advancedSettings?.classList.toggle('hidden');
+    if (advancedChevron) {
+      advancedChevron.style.transform = advancedSettings?.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+    }
+  });
+
+  // Range Listeners
+  cycleLengthInput?.addEventListener('input', () => {
+    if (cycleLengthVal) cycleLengthVal.textContent = `${cycleLengthInput.value} dni`;
+    calculateFertility();
+  });
+
+  lutealLengthInput?.addEventListener('input', () => {
+    if (lutealLengthVal) lutealLengthVal.textContent = `${lutealLengthInput.value} dni`;
+    calculateFertility();
+  });
+
+  lmpInput?.addEventListener('change', calculateFertility);
+  calculateBtn?.addEventListener('click', calculateFertility);
+
+  function formatDate(d: Date): string {
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const yyyy = d.getFullYear();
+    return `${dd}.${mm}.${yyyy}`;
+  }
+
+  function calculateFertility() {
+    if (!lmpInput || !lmpInput.value) return;
+
+    const lmpDate = new Date(lmpInput.value);
+    if (isNaN(lmpDate.getTime())) return;
+
+    const cycleLength = parseInt(cycleLengthInput.value, 10) || 28;
+    const lutealLength = parseInt(lutealLengthInput.value, 10) || 14;
+
+    // Ovulation Day = LMP + (Cycle Length - Luteal Length)
+    const daysToOvulation = cycleLength - lutealLength;
+    const ovulationDate = new Date(lmpDate);
+    ovulationDate.setDate(lmpDate.getDate() + daysToOvulation);
+
+    // Fertile Window = Ovulation - 5 days to Ovulation + 1 day
+    const fertileStart = new Date(ovulationDate);
+    fertileStart.setDate(ovulationDate.getDate() - 5);
+
+    const fertileEnd = new Date(ovulationDate);
+    fertileEnd.setDate(ovulationDate.getDate() + 1);
+
+    // Next Period = LMP + Cycle Length
+    const nextPeriodDate = new Date(lmpDate);
+    nextPeriodDate.setDate(lmpDate.getDate() + cycleLength);
+
+    // Pregnancy Test = Next Period Date (or 12 days post ovulation)
+    const pregnancyTestDate = new Date(ovulationDate);
+    pregnancyTestDate.setDate(ovulationDate.getDate() + 12);
+
+    // Update UI Cards
+    if (resOvulationDate) resOvulationDate.textContent = formatDate(ovulationDate);
+    if (resOvulationDay) resOvulationDay.textContent = `${daysPl[ovulationDate.getDay()]}, cykl ${daysToOvulation + 1}. dzień`;
+
+    if (resFertileWindow) resFertileWindow.textContent = `${formatDate(fertileStart)} – ${formatDate(fertileEnd)}`;
+    if (resNextPeriod) resNextPeriod.textContent = `${formatDate(nextPeriodDate)} (${daysPl[nextPeriodDate.getDay()]})`;
+    if (resPregnancyTest) resPregnancyTest.textContent = `${formatDate(pregnancyTestDate)}`;
+
+    // Render Daily Odds Chart
+    renderDailyOdds(ovulationDate);
+    renderPieChart();
+
+    // Dispatch Event for Calendar & Print Components
+    const detailData = {
+      lmpDate,
+      cycleLength,
+      lutealLength,
+      ovulationDate,
+      fertileStart,
+      fertileEnd,
+      nextPeriodDate,
+      pregnancyTestDate
+    };
+    (window as any).__lastFertilityData = detailData;
+    window.dispatchEvent(new CustomEvent('fertilityCalculated', {
+      detail: detailData
+    }));
+  }
+
+  function renderDailyOdds(ovulationDate: Date) {
+    if (!oddsBarsContainer) return;
+
+    // Days relative to ovulation & scientific odds
+    const oddsMap = [
+      { offset: -5, label: '5 dni przed owulacją', percent: 10, color: 'bg-emerald-400' },
+      { offset: -4, label: '4 dni przed owulacją', percent: 16, color: 'bg-emerald-500' },
+      { offset: -3, label: '3 dni przed owulacją', percent: 14, color: 'bg-emerald-500' },
+      { offset: -2, label: '2 dni przed owulacją', percent: 27, color: 'bg-indigo-600', isPeak: true },
+      { offset: -1, label: '1 dzień przed owulacją', percent: 31, color: 'bg-indigo-600', isPeak: true },
+      { offset: 0,  label: 'Dzień Owulacji ⭐', percent: 33, color: 'bg-purple-600', isPeak: true },
+      { offset: 1,  label: '1 dzień po owulacji', percent: 5, color: 'bg-gray-400' }
+    ];
+
+    oddsBarsContainer.innerHTML = oddsMap.map(item => {
+      const d = new Date(ovulationDate);
+      d.setDate(ovulationDate.getDate() + item.offset);
+      const formatted = formatDate(d);
+
+      return `
+        <div class="space-y-1">
+          <div class="flex justify-between text-xs font-medium">
+            <span class="text-[#171717] flex items-center gap-1.5">
+              <span class="font-mono text-[#8f8f8f] text-[11px]">${formatted}</span>
+              <span>• ${item.label}</span>
+              ${item.isPeak ? `<span class="bg-[#171717] text-white text-[9px] font-mono px-1.5 py-0.2 rounded">SZCZYT</span>` : ''}
+            </span>
+            <span class="font-mono text-xs text-[#171717] font-semibold">${item.percent}% szansy</span>
+          </div>
+          <div class="w-full h-2 bg-[#ebebeb] rounded-full overflow-hidden">
+            <div class="h-full ${item.color} transition-all duration-500 rounded-full" style="width: ${item.percent * 3}%"></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Initial calculation on page load
+  calculateFertility();
+
+  function renderPieChart() {
+    const pieSegments = document.getElementById('pie-segments');
+    const pieLegend = document.getElementById('pie-legend');
+    if (!pieSegments || !pieLegend) return;
+
+    const oddsData = [
+      { label: '\u22125 dni',             percent: 10, color: '#34d399' },
+      { label: '\u22124 dni',             percent: 16, color: '#10b981' },
+      { label: '\u22123 dni',             percent: 14, color: '#059669' },
+      { label: '\u22122 dni (szczyt)',     percent: 27, color: '#6366f1' },
+      { label: '\u22121 dzie\u0144 (szczyt)', percent: 31, color: '#4f46e5' },
+      { label: 'Owulacja \u2b50',          percent: 33, color: '#9333ea' },
+      { label: '+1 dzie\u0144',            percent: 5,  color: '#d1d5db' },
+    ];
+
+    const total = oddsData.reduce((s, d) => s + d.percent, 0);
+    const cx = 80, cy = 80, r = 54;
+    let startAngle = -90;
+
+    const toRad = (a: number) => (a * Math.PI) / 180;
+
+    pieSegments.innerHTML = oddsData.map((item) => {
+      const sweep = (item.percent / total) * 360;
+      const endAngle = startAngle + sweep;
+      const x1 = cx + r * Math.cos(toRad(startAngle));
+      const y1 = cy + r * Math.sin(toRad(startAngle));
+      const x2 = cx + r * Math.cos(toRad(endAngle));
+      const y2 = cy + r * Math.sin(toRad(endAngle));
+      const largeArc = sweep > 180 ? 1 : 0;
+      const path = `M ${cx} ${cy} L ${x1.toFixed(3)} ${y1.toFixed(3)} A ${r} ${r} 0 ${largeArc} 1 ${x2.toFixed(3)} ${y2.toFixed(3)} Z`;
+      startAngle = endAngle;
+      return `<path d="${path}" fill="${item.color}" stroke="white" stroke-width="1.5" opacity="0.92"><title>${item.label}: ${item.percent}%</title></path>`;
+    }).join('');
+
+    pieLegend.innerHTML = oddsData.map(item => `
+      <div class="flex items-center gap-2">
+        <span class="flex-shrink-0 w-2.5 h-2.5 rounded-full" style="background:${item.color}"></span>
+        <span class="flex-1 text-[#4d4d4d]">${item.label}</span>
+        <span class="font-mono font-semibold text-[#171717]">${item.percent}%</span>
+      </div>
+    `).join('');
+  }
+</script>
