@@ -28,7 +28,7 @@
 
         <!-- Mode Selector -->
         <div class="space-y-2">
-          <label class="block text-xs font-medium text-[#171717] uppercase tracking-wider">
+          <label for="preg-calc-mode" class="block text-xs font-medium text-[#171717] uppercase tracking-wider">
             Oblicz na podstawie:
           </label>
           <select id="preg-calc-mode" class="text-input w-full font-mono text-xs bg-white">
@@ -61,6 +61,7 @@
             min="20" 
             max="45" 
             value="28" 
+            aria-label="Długość cyklu w dniach"
             class="w-full accent-[#171717] cursor-pointer"
           />
         </div>
@@ -287,6 +288,10 @@
     }).join('');
   }
 
-  // Initial calculation
-  calculatePregnancy();
+  // Initial calculation (scheduled via rAF to avoid blocking initial paint)
+  if (typeof requestAnimationFrame !== 'undefined') {
+    requestAnimationFrame(calculatePregnancy);
+  } else {
+    calculatePregnancy();
+  }
 </script>

@@ -81,10 +81,17 @@
 
   const weekHeader = ['Nd', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'];
 
+  let renderPending = false;
   function updateDataAndRender(data: any) {
     if (!data) return;
     currentCycleData = data;
-    renderCalendars();
+    if (!renderPending) {
+      renderPending = true;
+      requestAnimationFrame(() => {
+        renderCalendars();
+        renderPending = false;
+      });
+    }
   }
 
   // Listen to Fertility Calculator updates
@@ -153,6 +160,7 @@
           <button 
             type="button"
             data-date="${thisDate.toISOString()}"
+            aria-label="${d} ${monthsPl[month]} ${year}: ${dayStatus.title}"
             class="h-9 text-xs font-mono font-medium rounded-lg flex flex-col items-center justify-center transition-all ${dayStatus.bgClass} ${dayStatus.textClass} hover:ring-2 hover:ring-[#171717] cursor-pointer"
             title="${dayStatus.title}"
           >

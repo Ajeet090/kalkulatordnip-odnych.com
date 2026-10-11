@@ -55,9 +55,10 @@
             min="20" 
             max="45" 
             value="28" 
+            aria-label="Średnia długość cyklu"
             class="w-full accent-[#171717] cursor-pointer"
           />
-          <div class="flex justify-between text-[11px] text-[#8f8f8f] font-mono">
+          <div class="flex justify-between text-[11px] text-[#737373] font-mono">
             <span>20 dni</span>
             <span>28 dni (standard)</span>
             <span>45 dni</span>
@@ -69,6 +70,8 @@
           <button 
             type="button" 
             id="toggle-advanced-btn" 
+            aria-expanded="false"
+            aria-controls="advanced-settings"
             class="flex items-center justify-between w-full text-xs font-medium text-[#4d4d4d] hover:text-[#171717]"
           >
             <span class="flex items-center gap-1.5">
@@ -91,9 +94,10 @@
               min="10" 
               max="16" 
               value="14" 
+              aria-label="Długość fazy lutealnej"
               class="w-full accent-[#171717] cursor-pointer"
             />
-            <p class="text-[11px] text-[#8f8f8f]">Domyślnie faza lutealna trwa 14 dni. Dostosuj, jeśli znasz dokładny czas trwania fazy poowulacyjnej.</p>
+            <p class="text-[11px] text-[#737373]">Domyślnie faza lutealna trwa 14 dni. Dostosuj, jeśli znasz dokładny czas trwania fazy poowulacyjnej.</p>
           </div>
         </div>
 
@@ -261,9 +265,10 @@
 
   // Toggle Advanced Settings
   toggleAdvancedBtn?.addEventListener('click', () => {
-    advancedSettings?.classList.toggle('hidden');
+    const isHidden = advancedSettings?.classList.toggle('hidden');
+    toggleAdvancedBtn.setAttribute('aria-expanded', isHidden ? 'false' : 'true');
     if (advancedChevron) {
-      advancedChevron.style.transform = advancedSettings?.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+      advancedChevron.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
     }
   });
 
@@ -383,8 +388,12 @@
     }).join('');
   }
 
-  // Initial calculation on page load
-  calculateFertility();
+  // Initial calculation on page load (scheduled to prevent blocking initial paint)
+  if (typeof requestAnimationFrame !== 'undefined') {
+    requestAnimationFrame(calculateFertility);
+  } else {
+    calculateFertility();
+  }
 
   function renderPieChart() {
     const pieSegments = document.getElementById('pie-segments');
