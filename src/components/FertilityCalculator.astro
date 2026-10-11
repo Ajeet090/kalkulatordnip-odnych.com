@@ -230,211 +230,213 @@
   </div>
 </section>
 
-<script>
-  // DOM Elements
-  const lmpInput = document.getElementById('lmp-date') as HTMLInputElement;
-  const cycleLengthInput = document.getElementById('cycle-length') as HTMLInputElement;
-  const cycleLengthVal = document.getElementById('cycle-length-val');
-  const lutealLengthInput = document.getElementById('luteal-length') as HTMLInputElement;
-  const lutealLengthVal = document.getElementById('luteal-length-val');
-  const calculateBtn = document.getElementById('calculate-btn');
-  const toggleAdvancedBtn = document.getElementById('toggle-advanced-btn');
-  const advancedSettings = document.getElementById('advanced-settings');
-  const advancedChevron = document.getElementById('advanced-chevron');
+<script is:inline>
+  (() => {
+    // DOM Elements
+    const lmpInput = document.getElementById('lmp-date');
+    const cycleLengthInput = document.getElementById('cycle-length');
+    const cycleLengthVal = document.getElementById('cycle-length-val');
+    const lutealLengthInput = document.getElementById('luteal-length');
+    const lutealLengthVal = document.getElementById('luteal-length-val');
+    const calculateBtn = document.getElementById('calculate-btn');
+    const toggleAdvancedBtn = document.getElementById('toggle-advanced-btn');
+    const advancedSettings = document.getElementById('advanced-settings');
+    const advancedChevron = document.getElementById('advanced-chevron');
 
-  // Result Elements
-  const resOvulationDate = document.getElementById('res-ovulation-date');
-  const resOvulationDay = document.getElementById('res-ovulation-day');
-  const resFertileWindow = document.getElementById('res-fertile-window');
-  const resNextPeriod = document.getElementById('res-next-period');
-  const resPregnancyTest = document.getElementById('res-pregnancy-test');
-  const oddsBarsContainer = document.getElementById('odds-bars-container');
+    // Result Elements
+    const resOvulationDate = document.getElementById('res-ovulation-date');
+    const resOvulationDay = document.getElementById('res-ovulation-day');
+    const resFertileWindow = document.getElementById('res-fertile-window');
+    const resNextPeriod = document.getElementById('res-next-period');
+    const resPregnancyTest = document.getElementById('res-pregnancy-test');
+    const oddsBarsContainer = document.getElementById('odds-bars-container');
 
-  // Polish Days & Months
-  const daysPl = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
+    // Polish Days & Months
+    const daysPl = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
 
-  // Initialize Default Date: 14 days ago from today
-  const today = new Date();
-  const defaultLmp = new Date(today);
-  defaultLmp.setDate(today.getDate() - 14);
-  
-  if (lmpInput) {
-    lmpInput.value = defaultLmp.toISOString().split('T')[0];
-    lmpInput.max = today.toISOString().split('T')[0];
-  }
-
-  // Toggle Advanced Settings
-  toggleAdvancedBtn?.addEventListener('click', () => {
-    const isHidden = advancedSettings?.classList.toggle('hidden');
-    toggleAdvancedBtn.setAttribute('aria-expanded', isHidden ? 'false' : 'true');
-    if (advancedChevron) {
-      advancedChevron.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
+    // Initialize Default Date: 14 days ago from today
+    const today = new Date();
+    const defaultLmp = new Date(today);
+    defaultLmp.setDate(today.getDate() - 14);
+    
+    if (lmpInput) {
+      lmpInput.value = defaultLmp.toISOString().split('T')[0];
+      lmpInput.max = today.toISOString().split('T')[0];
     }
-  });
 
-  // Range Listeners
-  cycleLengthInput?.addEventListener('input', () => {
-    if (cycleLengthVal) cycleLengthVal.textContent = `${cycleLengthInput.value} dni`;
-    calculateFertility();
-  });
+    // Toggle Advanced Settings
+    toggleAdvancedBtn?.addEventListener('click', () => {
+      const isHidden = advancedSettings?.classList.toggle('hidden');
+      toggleAdvancedBtn.setAttribute('aria-expanded', isHidden ? 'false' : 'true');
+      if (advancedChevron) {
+        advancedChevron.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
+      }
+    });
 
-  lutealLengthInput?.addEventListener('input', () => {
-    if (lutealLengthVal) lutealLengthVal.textContent = `${lutealLengthInput.value} dni`;
-    calculateFertility();
-  });
+    // Range Listeners
+    cycleLengthInput?.addEventListener('input', () => {
+      if (cycleLengthVal) cycleLengthVal.textContent = `${cycleLengthInput.value} dni`;
+      calculateFertility();
+    });
 
-  lmpInput?.addEventListener('change', calculateFertility);
-  calculateBtn?.addEventListener('click', calculateFertility);
+    lutealLengthInput?.addEventListener('input', () => {
+      if (lutealLengthVal) lutealLengthVal.textContent = `${lutealLengthInput.value} dni`;
+      calculateFertility();
+    });
 
-  function formatDate(d: Date): string {
-    const dd = String(d.getDate()).padStart(2, '0');
-    const mm = String(d.getMonth() + 1).padStart(2, '0');
-    const yyyy = d.getFullYear();
-    return `${dd}.${mm}.${yyyy}`;
-  }
+    lmpInput?.addEventListener('change', calculateFertility);
+    calculateBtn?.addEventListener('click', calculateFertility);
 
-  function calculateFertility() {
-    if (!lmpInput || !lmpInput.value) return;
+    function formatDate(d) {
+      const dd = String(d.getDate()).padStart(2, '0');
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const yyyy = d.getFullYear();
+      return `${dd}.${mm}.${yyyy}`;
+    }
 
-    const lmpDate = new Date(lmpInput.value);
-    if (isNaN(lmpDate.getTime())) return;
+    function calculateFertility() {
+      if (!lmpInput || !lmpInput.value) return;
 
-    const cycleLength = parseInt(cycleLengthInput.value, 10) || 28;
-    const lutealLength = parseInt(lutealLengthInput.value, 10) || 14;
+      const lmpDate = new Date(lmpInput.value);
+      if (isNaN(lmpDate.getTime())) return;
 
-    // Ovulation Day = LMP + (Cycle Length - Luteal Length)
-    const daysToOvulation = cycleLength - lutealLength;
-    const ovulationDate = new Date(lmpDate);
-    ovulationDate.setDate(lmpDate.getDate() + daysToOvulation);
+      const cycleLength = parseInt(cycleLengthInput?.value, 10) || 28;
+      const lutealLength = parseInt(lutealLengthInput?.value, 10) || 14;
 
-    // Fertile Window = Ovulation - 5 days to Ovulation + 1 day
-    const fertileStart = new Date(ovulationDate);
-    fertileStart.setDate(ovulationDate.getDate() - 5);
+      // Ovulation Day = LMP + (Cycle Length - Luteal Length)
+      const daysToOvulation = cycleLength - lutealLength;
+      const ovulationDate = new Date(lmpDate);
+      ovulationDate.setDate(lmpDate.getDate() + daysToOvulation);
 
-    const fertileEnd = new Date(ovulationDate);
-    fertileEnd.setDate(ovulationDate.getDate() + 1);
+      // Fertile Window = Ovulation - 5 days to Ovulation + 1 day
+      const fertileStart = new Date(ovulationDate);
+      fertileStart.setDate(ovulationDate.getDate() - 5);
 
-    // Next Period = LMP + Cycle Length
-    const nextPeriodDate = new Date(lmpDate);
-    nextPeriodDate.setDate(lmpDate.getDate() + cycleLength);
+      const fertileEnd = new Date(ovulationDate);
+      fertileEnd.setDate(ovulationDate.getDate() + 1);
 
-    // Pregnancy Test = Next Period Date (or 12 days post ovulation)
-    const pregnancyTestDate = new Date(ovulationDate);
-    pregnancyTestDate.setDate(ovulationDate.getDate() + 12);
+      // Next Period = LMP + Cycle Length
+      const nextPeriodDate = new Date(lmpDate);
+      nextPeriodDate.setDate(lmpDate.getDate() + cycleLength);
 
-    // Update UI Cards
-    if (resOvulationDate) resOvulationDate.textContent = formatDate(ovulationDate);
-    if (resOvulationDay) resOvulationDay.textContent = `${daysPl[ovulationDate.getDay()]}, cykl ${daysToOvulation + 1}. dzień`;
+      // Pregnancy Test = Next Period Date (or 12 days post ovulation)
+      const pregnancyTestDate = new Date(ovulationDate);
+      pregnancyTestDate.setDate(ovulationDate.getDate() + 12);
 
-    if (resFertileWindow) resFertileWindow.textContent = `${formatDate(fertileStart)} – ${formatDate(fertileEnd)}`;
-    if (resNextPeriod) resNextPeriod.textContent = `${formatDate(nextPeriodDate)} (${daysPl[nextPeriodDate.getDay()]})`;
-    if (resPregnancyTest) resPregnancyTest.textContent = `${formatDate(pregnancyTestDate)}`;
+      // Update UI Cards
+      if (resOvulationDate) resOvulationDate.textContent = formatDate(ovulationDate);
+      if (resOvulationDay) resOvulationDay.textContent = `${daysPl[ovulationDate.getDay()]}, cykl ${daysToOvulation + 1}. dzień`;
 
-    // Render Daily Odds Chart
-    renderDailyOdds(ovulationDate);
-    renderPieChart();
+      if (resFertileWindow) resFertileWindow.textContent = `${formatDate(fertileStart)} – ${formatDate(fertileEnd)}`;
+      if (resNextPeriod) resNextPeriod.textContent = `${formatDate(nextPeriodDate)} (${daysPl[nextPeriodDate.getDay()]})`;
+      if (resPregnancyTest) resPregnancyTest.textContent = `${formatDate(pregnancyTestDate)}`;
 
-    // Dispatch Event for Calendar & Print Components
-    const detailData = {
-      lmpDate,
-      cycleLength,
-      lutealLength,
-      ovulationDate,
-      fertileStart,
-      fertileEnd,
-      nextPeriodDate,
-      pregnancyTestDate
-    };
-    (window as any).__lastFertilityData = detailData;
-    window.dispatchEvent(new CustomEvent('fertilityCalculated', {
-      detail: detailData
-    }));
-  }
+      // Render Daily Odds Chart
+      renderDailyOdds(ovulationDate);
+      renderPieChart();
 
-  function renderDailyOdds(ovulationDate: Date) {
-    if (!oddsBarsContainer) return;
+      // Dispatch Event for Calendar & Print Components
+      const detailData = {
+        lmpDate,
+        cycleLength,
+        lutealLength,
+        ovulationDate,
+        fertileStart,
+        fertileEnd,
+        nextPeriodDate,
+        pregnancyTestDate
+      };
+      window.__lastFertilityData = detailData;
+      window.dispatchEvent(new CustomEvent('fertilityCalculated', {
+        detail: detailData
+      }));
+    }
 
-    // Days relative to ovulation & scientific odds
-    const oddsMap = [
-      { offset: -5, label: '5 dni przed owulacją', percent: 10, color: 'bg-emerald-400' },
-      { offset: -4, label: '4 dni przed owulacją', percent: 16, color: 'bg-emerald-500' },
-      { offset: -3, label: '3 dni przed owulacją', percent: 14, color: 'bg-emerald-500' },
-      { offset: -2, label: '2 dni przed owulacją', percent: 27, color: 'bg-indigo-600', isPeak: true },
-      { offset: -1, label: '1 dzień przed owulacją', percent: 31, color: 'bg-indigo-600', isPeak: true },
-      { offset: 0,  label: 'Dzień Owulacji ⭐', percent: 33, color: 'bg-purple-600', isPeak: true },
-      { offset: 1,  label: '1 dzień po owulacji', percent: 5, color: 'bg-gray-400' }
-    ];
+    function renderDailyOdds(ovulationDate) {
+      if (!oddsBarsContainer) return;
 
-    oddsBarsContainer.innerHTML = oddsMap.map(item => {
-      const d = new Date(ovulationDate);
-      d.setDate(ovulationDate.getDate() + item.offset);
-      const formatted = formatDate(d);
+      // Days relative to ovulation & scientific odds
+      const oddsMap = [
+        { offset: -5, label: '5 dni przed owulacją', percent: 10, color: 'bg-emerald-400' },
+        { offset: -4, label: '4 dni przed owulacją', percent: 16, color: 'bg-emerald-500' },
+        { offset: -3, label: '3 dni przed owulacją', percent: 14, color: 'bg-emerald-500' },
+        { offset: -2, label: '2 dni przed owulacją', percent: 27, color: 'bg-indigo-600', isPeak: true },
+        { offset: -1, label: '1 dzień przed owulacją', percent: 31, color: 'bg-indigo-600', isPeak: true },
+        { offset: 0,  label: 'Dzień Owulacji ⭐', percent: 33, color: 'bg-purple-600', isPeak: true },
+        { offset: 1,  label: '1 dzień po owulacji', percent: 5, color: 'bg-gray-400' }
+      ];
 
-      return `
-        <div class="space-y-1">
-          <div class="flex justify-between text-xs font-medium">
-            <span class="text-[#171717] flex items-center gap-1.5">
-              <span class="font-mono text-[#8f8f8f] text-[11px]">${formatted}</span>
-              <span>• ${item.label}</span>
-              ${item.isPeak ? `<span class="bg-[#171717] text-white text-[9px] font-mono px-1.5 py-0.2 rounded">SZCZYT</span>` : ''}
-            </span>
-            <span class="font-mono text-xs text-[#171717] font-semibold">${item.percent}% szansy</span>
+      oddsBarsContainer.innerHTML = oddsMap.map(item => {
+        const d = new Date(ovulationDate);
+        d.setDate(ovulationDate.getDate() + item.offset);
+        const formatted = formatDate(d);
+
+        return `
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs font-medium">
+              <span class="text-[#171717] flex items-center gap-1.5">
+                <span class="font-mono text-[#8f8f8f] text-[11px]">${formatted}</span>
+                <span>• ${item.label}</span>
+                ${item.isPeak ? `<span class="bg-[#171717] text-white text-[9px] font-mono px-1.5 py-0.2 rounded">SZCZYT</span>` : ''}
+              </span>
+              <span class="font-mono text-xs text-[#171717] font-semibold">${item.percent}% szansy</span>
+            </div>
+            <div class="w-full h-2 bg-[#ebebeb] rounded-full overflow-hidden">
+              <div class="h-full ${item.color} transition-all duration-500 rounded-full" style="width: ${item.percent * 3}%"></div>
+            </div>
           </div>
-          <div class="w-full h-2 bg-[#ebebeb] rounded-full overflow-hidden">
-            <div class="h-full ${item.color} transition-all duration-500 rounded-full" style="width: ${item.percent * 3}%"></div>
-          </div>
+        `;
+      }).join('');
+    }
+
+    function renderPieChart() {
+      const pieSegments = document.getElementById('pie-segments');
+      const pieLegend = document.getElementById('pie-legend');
+      if (!pieSegments || !pieLegend) return;
+
+      const oddsData = [
+        { label: '−5 dni',             percent: 10, color: '#34d399' },
+        { label: '−4 dni',             percent: 16, color: '#10b981' },
+        { label: '−3 dni',             percent: 14, color: '#059669' },
+        { label: '−2 dni (szczyt)',     percent: 27, color: '#6366f1' },
+        { label: '−1 dzień (szczyt)', percent: 31, color: '#4f46e5' },
+        { label: 'Owulacja ⭐',          percent: 33, color: '#9333ea' },
+        { label: '+1 dzień',            percent: 5,  color: '#d1d5db' },
+      ];
+
+      const total = oddsData.reduce((s, d) => s + d.percent, 0);
+      const cx = 80, cy = 80, r = 54;
+      let startAngle = -90;
+
+      const toRad = (a) => (a * Math.PI) / 180;
+
+      pieSegments.innerHTML = oddsData.map((item) => {
+        const sweep = (item.percent / total) * 360;
+        const endAngle = startAngle + sweep;
+        const x1 = cx + r * Math.cos(toRad(startAngle));
+        const y1 = cy + r * Math.sin(toRad(startAngle));
+        const x2 = cx + r * Math.cos(toRad(endAngle));
+        const y2 = cy + r * Math.sin(toRad(endAngle));
+        const largeArc = sweep > 180 ? 1 : 0;
+        const path = `M ${cx} ${cy} L ${x1.toFixed(3)} ${y1.toFixed(3)} A ${r} ${r} 0 ${largeArc} 1 ${x2.toFixed(3)} ${y2.toFixed(3)} Z`;
+        startAngle = endAngle;
+        return `<path d="${path}" fill="${item.color}" stroke="white" stroke-width="1.5" opacity="0.92"><title>${item.label}: ${item.percent}%</title></path>`;
+      }).join('');
+
+      pieLegend.innerHTML = oddsData.map(item => `
+        <div class="flex items-center gap-2">
+          <span class="flex-shrink-0 w-2.5 h-2.5 rounded-full" style="background:${item.color}"></span>
+          <span class="flex-1 text-[#4d4d4d]">${item.label}</span>
+          <span class="font-mono font-semibold text-[#171717]">${item.percent}%</span>
         </div>
-      `;
-    }).join('');
-  }
+      `).join('');
+    }
 
-  // Initial calculation on page load (scheduled to prevent blocking initial paint)
-  if (typeof requestAnimationFrame !== 'undefined') {
-    requestAnimationFrame(calculateFertility);
-  } else {
-    calculateFertility();
-  }
-
-  function renderPieChart() {
-    const pieSegments = document.getElementById('pie-segments');
-    const pieLegend = document.getElementById('pie-legend');
-    if (!pieSegments || !pieLegend) return;
-
-    const oddsData = [
-      { label: '\u22125 dni',             percent: 10, color: '#34d399' },
-      { label: '\u22124 dni',             percent: 16, color: '#10b981' },
-      { label: '\u22123 dni',             percent: 14, color: '#059669' },
-      { label: '\u22122 dni (szczyt)',     percent: 27, color: '#6366f1' },
-      { label: '\u22121 dzie\u0144 (szczyt)', percent: 31, color: '#4f46e5' },
-      { label: 'Owulacja \u2b50',          percent: 33, color: '#9333ea' },
-      { label: '+1 dzie\u0144',            percent: 5,  color: '#d1d5db' },
-    ];
-
-    const total = oddsData.reduce((s, d) => s + d.percent, 0);
-    const cx = 80, cy = 80, r = 54;
-    let startAngle = -90;
-
-    const toRad = (a: number) => (a * Math.PI) / 180;
-
-    pieSegments.innerHTML = oddsData.map((item) => {
-      const sweep = (item.percent / total) * 360;
-      const endAngle = startAngle + sweep;
-      const x1 = cx + r * Math.cos(toRad(startAngle));
-      const y1 = cy + r * Math.sin(toRad(startAngle));
-      const x2 = cx + r * Math.cos(toRad(endAngle));
-      const y2 = cy + r * Math.sin(toRad(endAngle));
-      const largeArc = sweep > 180 ? 1 : 0;
-      const path = `M ${cx} ${cy} L ${x1.toFixed(3)} ${y1.toFixed(3)} A ${r} ${r} 0 ${largeArc} 1 ${x2.toFixed(3)} ${y2.toFixed(3)} Z`;
-      startAngle = endAngle;
-      return `<path d="${path}" fill="${item.color}" stroke="white" stroke-width="1.5" opacity="0.92"><title>${item.label}: ${item.percent}%</title></path>`;
-    }).join('');
-
-    pieLegend.innerHTML = oddsData.map(item => `
-      <div class="flex items-center gap-2">
-        <span class="flex-shrink-0 w-2.5 h-2.5 rounded-full" style="background:${item.color}"></span>
-        <span class="flex-1 text-[#4d4d4d]">${item.label}</span>
-        <span class="font-mono font-semibold text-[#171717]">${item.percent}%</span>
-      </div>
-    `).join('');
-  }
+    // Initial calculation on page load
+    if (typeof requestAnimationFrame !== 'undefined') {
+      requestAnimationFrame(calculateFertility);
+    } else {
+      calculateFertility();
+    }
+  })();
 </script>

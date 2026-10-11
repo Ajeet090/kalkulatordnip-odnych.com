@@ -63,201 +63,202 @@
   </div>
 </section>
 
-<script>
-  let currentCycleData: any = null;
+<script is:inline>
+  (() => {
+    let currentCycleData = null;
 
-  const monthsContainer = document.getElementById('calendar-months-container');
-  const dayModal = document.getElementById('day-modal');
-  const closeModalBtn = document.getElementById('close-modal-btn');
-  const modalOkBtn = document.getElementById('modal-ok-btn');
-  const modalDateEyebrow = document.getElementById('modal-date-eyebrow');
-  const modalStatusTitle = document.getElementById('modal-status-title');
-  const modalDescription = document.getElementById('modal-description');
+    const monthsContainer = document.getElementById('calendar-months-container');
+    const dayModal = document.getElementById('day-modal');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const modalOkBtn = document.getElementById('modal-ok-btn');
+    const modalDateEyebrow = document.getElementById('modal-date-eyebrow');
+    const modalStatusTitle = document.getElementById('modal-status-title');
+    const modalDescription = document.getElementById('modal-description');
 
-  const monthsPl = [
-    'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec',
-    'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'
-  ];
+    const monthsPl = [
+      'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec',
+      'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'
+    ];
 
-  const weekHeader = ['Nd', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'];
+    const weekHeader = ['Nd', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'];
 
-  let renderPending = false;
-  function updateDataAndRender(data: any) {
-    if (!data) return;
-    currentCycleData = data;
-    if (!renderPending) {
-      renderPending = true;
-      requestAnimationFrame(() => {
-        renderCalendars();
-        renderPending = false;
-      });
+    let renderPending = false;
+    function updateDataAndRender(data) {
+      if (!data) return;
+      currentCycleData = data;
+      if (!renderPending) {
+        renderPending = true;
+        requestAnimationFrame(() => {
+          renderCalendars();
+          renderPending = false;
+        });
+      }
     }
-  }
 
-  // Listen to Fertility Calculator updates
-  window.addEventListener('fertilityCalculated', (e: any) => {
-    updateDataAndRender(e.detail);
-  });
-
-  // Check if data was already calculated or render initial 3-month calendar immediately
-  if ((window as any).__lastFertilityData) {
-    updateDataAndRender((window as any).__lastFertilityData);
-  } else {
-    // Default 3-month calendar (LMP 14 days ago)
-    const today = new Date();
-    const defaultLmp = new Date(today);
-    defaultLmp.setDate(today.getDate() - 14);
-    
-    const cycleLength = 28;
-    const lutealLength = 14;
-    const daysToOv = cycleLength - lutealLength;
-    const ovulationDate = new Date(defaultLmp);
-    ovulationDate.setDate(defaultLmp.getDate() + daysToOv);
-
-    updateDataAndRender({
-      lmpDate: defaultLmp,
-      cycleLength: 28,
-      lutealLength: 14,
-      ovulationDate
+    // Listen to Fertility Calculator updates
+    window.addEventListener('fertilityCalculated', (e) => {
+      updateDataAndRender(e.detail);
     });
-  }
 
-  closeModalBtn?.addEventListener('click', () => dayModal?.classList.add('hidden'));
-  modalOkBtn?.addEventListener('click', () => dayModal?.classList.add('hidden'));
-
-  function renderCalendars() {
-    if (!monthsContainer || !currentCycleData) return;
-
-    const baseDate = new Date(currentCycleData.lmpDate);
-    const startYear = baseDate.getFullYear();
-    const startMonth = baseDate.getMonth();
-
-    monthsContainer.innerHTML = '';
-
-    // Render 3 consecutive months
-    for (let m = 0; m < 3; m++) {
-      const monthDate = new Date(startYear, startMonth + m, 1);
-      const year = monthDate.getFullYear();
-      const month = monthDate.getMonth();
-
-      const monthName = `${monthsPl[month]} ${year}`;
-      const firstDayIndex = new Date(year, month, 1).getDay();
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-      let daysHtml = '';
-
-      // Blank slots before 1st day of month
-      for (let b = 0; b < firstDayIndex; b++) {
-        daysHtml += `<div class="h-9"></div>`;
-      }
-
-      // Render days of the month
-      for (let d = 1; d <= daysInMonth; d++) {
-        const thisDate = new Date(year, month, d);
-        const dayStatus = getDayStatus(thisDate);
-
-        daysHtml += `
-          <button 
-            type="button"
-            data-date="${thisDate.toISOString()}"
-            aria-label="${d} ${monthsPl[month]} ${year}: ${dayStatus.title}"
-            class="h-9 text-xs font-mono font-medium rounded-lg flex flex-col items-center justify-center transition-all ${dayStatus.bgClass} ${dayStatus.textClass} hover:ring-2 hover:ring-[#171717] cursor-pointer"
-            title="${dayStatus.title}"
-          >
-            <span>${d}</span>
-            ${dayStatus.icon ? `<span class="text-[9px] leading-none">${dayStatus.icon}</span>` : ''}
-          </button>
-        `;
-      }
-
-      const cardHtml = `
-        <div class="feature-card bg-white space-y-3">
-          <div class="text-center font-semibold text-sm text-[#171717] border-b border-[#ebebeb] pb-2">
-            ${monthName}
-          </div>
-          <div class="grid grid-cols-7 text-center font-mono text-[11px] text-[#8f8f8f] mb-1">
-            ${weekHeader.map(w => `<div>${w}</div>`).join('')}
-          </div>
-          <div class="grid grid-cols-7 gap-1">
-            ${daysHtml}
-          </div>
-        </div>
-      `;
-
-      monthsContainer.insertAdjacentHTML('beforeend', cardHtml);
-    }
-
-    // Attach click handlers to calendar days
-    monthsContainer.querySelectorAll('button[data-date]').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const dateStr = (e.currentTarget as HTMLElement).getAttribute('data-date');
-        if (dateStr) showDayModal(new Date(dateStr));
-      });
-    });
-  }
-
-  function getDayStatus(d: Date) {
-    if (!currentCycleData) return { bgClass: 'bg-[#fafafa]', textClass: 'text-[#171717]', title: 'Dzień niepłodny', icon: '' };
-
-    const cycleLength = currentCycleData.cycleLength || 28;
-    const lutealLength = currentCycleData.lutealLength || 14;
-    const daysToOv = cycleLength - lutealLength;
-    const lmpBase = new Date(currentCycleData.lmpDate).setHours(0,0,0,0);
-    const targetTime = new Date(d).setHours(0,0,0,0);
-
-    // Check cycles 0 to 4 across the 3-month window
-    for (let c = 0; c < 5; c++) {
-      const cycleStart = lmpBase + c * cycleLength * 86400000;
-      const ovTime = cycleStart + daysToOv * 86400000;
-      const fertStart = ovTime - 5 * 86400000;
-      const fertEnd = ovTime + 1 * 86400000;
-      const testTime = ovTime + 12 * 86400000;
-
-      // Period Days (first 5 days of cycle)
-      if (targetTime >= cycleStart && targetTime < cycleStart + 5 * 86400000) {
-        return { bgClass: 'bg-[#ff4d4d]/15 border border-[#ff4d4d]/30', textClass: 'text-[#ee0000] font-bold', title: 'Miesiączka', icon: '🩸' };
-      }
-
-      // Ovulation Day
-      if (targetTime === ovTime) {
-        return { bgClass: 'bg-[#10b981] text-white shadow-xs font-bold ring-2 ring-[#10b981]/40', textClass: 'text-white', title: 'Dzień Owulacji (Szczyt)', icon: '⭐' };
-      }
-
-      // Fertile Window
-      if (targetTime >= fertStart && targetTime <= fertEnd) {
-        return { bgClass: 'bg-[#7928ca]/15 border border-[#7928ca]/30', textClass: 'text-[#7928ca] font-bold', title: 'Dzień Płodny', icon: '🌸' };
-      }
-
-      // Pregnancy Test Day
-      if (targetTime === testTime) {
-        return { bgClass: 'bg-[#0070f3]/15 border border-[#0070f3]/30', textClass: 'text-[#0070f3] font-bold', title: 'Wykonaj Test Ciążowy', icon: '🧪' };
-      }
-    }
-
-    return { bgClass: 'bg-[#fafafa] hover:bg-[#f2f2f2]', textClass: 'text-[#4d4d4d]', title: 'Dzień niepłodny', icon: '' };
-  }
-
-  function showDayModal(d: Date) {
-    if (!dayModal || !modalDateEyebrow || !modalStatusTitle || !modalDescription) return;
-
-    const formatted = `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`;
-    modalDateEyebrow.textContent = `Data: ${formatted}`;
-
-    const status = getDayStatus(d);
-    modalStatusTitle.textContent = `${status.icon ? status.icon + ' ' : ''}${status.title}`;
-
-    if (status.title.includes('Owulacja')) {
-      modalDescription.textContent = 'To najważniejszy dzień w cyklu! Uwolnienie komórki jajowej. Szansa na poczęcie wynosi około 33%. Najwyższa płodność.';
-    } else if (status.title.includes('Płodny')) {
-      modalDescription.textContent = 'Należysz do okienka płodności. Plemniki mogą przetrwać w drogach rodnych do 5 dni, oczekując na owulację.';
-    } else if (status.title.includes('Miesiączka')) {
-      modalDescription.textContent = 'Pierwsze dni cyklu menstruacyjnego. Płodność jest znikoma, zalecany odpoczynek i regeneracja.';
-    } else if (status.title.includes('Test')) {
-      modalDescription.textContent = 'Zalecany dzień na wykonanie czułego testu ciążowego (np. o czułości 10 mIU/ml) z pierwszego moczu porannego.';
+    // Check if data was already calculated or render initial 3-month calendar immediately
+    if (window.__lastFertilityData) {
+      updateDataAndRender(window.__lastFertilityData);
     } else {
-      modalDescription.textContent = 'Dzień niepłodny wg kalkulacji kalendarzowej. Prawdopodobieństwo zapłodnienia jest bardzo niskie.';
+      const today = new Date();
+      const defaultLmp = new Date(today);
+      defaultLmp.setDate(today.getDate() - 14);
+      
+      const cycleLength = 28;
+      const lutealLength = 14;
+      const daysToOv = cycleLength - lutealLength;
+      const ovulationDate = new Date(defaultLmp);
+      ovulationDate.setDate(defaultLmp.getDate() + daysToOv);
+
+      updateDataAndRender({
+        lmpDate: defaultLmp,
+        cycleLength: 28,
+        lutealLength: 14,
+        ovulationDate
+      });
     }
 
-    dayModal.classList.remove('hidden');
-  }
+    closeModalBtn?.addEventListener('click', () => dayModal?.classList.add('hidden'));
+    modalOkBtn?.addEventListener('click', () => dayModal?.classList.add('hidden'));
+
+    function renderCalendars() {
+      if (!monthsContainer || !currentCycleData) return;
+
+      const baseDate = new Date(currentCycleData.lmpDate);
+      const startYear = baseDate.getFullYear();
+      const startMonth = baseDate.getMonth();
+
+      monthsContainer.innerHTML = '';
+
+      // Render 3 consecutive months
+      for (let m = 0; m < 3; m++) {
+        const monthDate = new Date(startYear, startMonth + m, 1);
+        const year = monthDate.getFullYear();
+        const month = monthDate.getMonth();
+
+        const monthName = `${monthsPl[month]} ${year}`;
+        const firstDayIndex = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        let daysHtml = '';
+
+        // Blank slots before 1st day of month
+        for (let b = 0; b < firstDayIndex; b++) {
+          daysHtml += '<div class="h-9"></div>';
+        }
+
+        // Render days of the month
+        for (let d = 1; d <= daysInMonth; d++) {
+          const thisDate = new Date(year, month, d);
+          const dayStatus = getDayStatus(thisDate);
+
+          daysHtml += `
+            <button 
+              type="button"
+              data-date="${thisDate.toISOString()}"
+              aria-label="${d} ${monthsPl[month]} ${year}: ${dayStatus.title}"
+              class="h-9 text-xs font-mono font-medium rounded-lg flex flex-col items-center justify-center transition-all ${dayStatus.bgClass} ${dayStatus.textClass} hover:ring-2 hover:ring-[#171717] cursor-pointer"
+              title="${dayStatus.title}"
+            >
+              <span>${d}</span>
+              ${dayStatus.icon ? `<span class="text-[9px] leading-none">${dayStatus.icon}</span>` : ''}
+            </button>
+          `;
+        }
+
+        const cardHtml = `
+          <div class="feature-card bg-white space-y-3">
+            <div class="text-center font-semibold text-sm text-[#171717] border-b border-[#ebebeb] pb-2">
+              ${monthName}
+            </div>
+            <div class="grid grid-cols-7 text-center font-mono text-[11px] text-[#8f8f8f] mb-1">
+              ${weekHeader.map(w => `<div>${w}</div>`).join('')}
+            </div>
+            <div class="grid grid-cols-7 gap-1">
+              ${daysHtml}
+            </div>
+          </div>
+        `;
+
+        monthsContainer.insertAdjacentHTML('beforeend', cardHtml);
+      }
+
+      // Attach click handlers to calendar days
+      monthsContainer.querySelectorAll('button[data-date]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const dateStr = e.currentTarget?.getAttribute('data-date');
+          if (dateStr) showDayModal(new Date(dateStr));
+        });
+      });
+    }
+
+    function getDayStatus(d) {
+      if (!currentCycleData) return { bgClass: 'bg-[#fafafa]', textClass: 'text-[#171717]', title: 'Dzień niepłodny', icon: '' };
+
+      const cycleLength = currentCycleData.cycleLength || 28;
+      const lutealLength = currentCycleData.lutealLength || 14;
+      const daysToOv = cycleLength - lutealLength;
+      const lmpBase = new Date(currentCycleData.lmpDate).setHours(0,0,0,0);
+      const targetTime = new Date(d).setHours(0,0,0,0);
+
+      // Check cycles 0 to 4 across the 3-month window
+      for (let c = 0; c < 5; c++) {
+        const cycleStart = lmpBase + c * cycleLength * 86400000;
+        const ovTime = cycleStart + daysToOv * 86400000;
+        const fertStart = ovTime - 5 * 86400000;
+        const fertEnd = ovTime + 1 * 86400000;
+        const testTime = ovTime + 12 * 86400000;
+
+        // Period Days (first 5 days of cycle)
+        if (targetTime >= cycleStart && targetTime < cycleStart + 5 * 86400000) {
+          return { bgClass: 'bg-[#ff4d4d]/15 border border-[#ff4d4d]/30', textClass: 'text-[#ee0000] font-bold', title: 'Miesiączka', icon: '🩸' };
+        }
+
+        // Ovulation Day
+        if (targetTime === ovTime) {
+          return { bgClass: 'bg-[#10b981] text-white shadow-xs font-bold ring-2 ring-[#10b981]/40', textClass: 'text-white', title: 'Dzień Owulacji (Szczyt)', icon: '⭐' };
+        }
+
+        // Fertile Window
+        if (targetTime >= fertStart && targetTime <= fertEnd) {
+          return { bgClass: 'bg-[#7928ca]/15 border border-[#7928ca]/30', textClass: 'text-[#7928ca] font-bold', title: 'Dzień Płodny', icon: '🌸' };
+        }
+
+        // Pregnancy Test Day
+        if (targetTime === testTime) {
+          return { bgClass: 'bg-[#0070f3]/15 border border-[#0070f3]/30', textClass: 'text-[#0070f3] font-bold', title: 'Wykonaj Test Ciążowy', icon: '🧪' };
+        }
+      }
+
+      return { bgClass: 'bg-[#fafafa] hover:bg-[#f2f2f2]', textClass: 'text-[#4d4d4d]', title: 'Dzień niepłodny', icon: '' };
+    }
+
+    function showDayModal(d) {
+      if (!dayModal || !modalDateEyebrow || !modalStatusTitle || !modalDescription) return;
+
+      const formatted = `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`;
+      modalDateEyebrow.textContent = `Data: ${formatted}`;
+
+      const status = getDayStatus(d);
+      modalStatusTitle.textContent = `${status.icon ? status.icon + ' ' : ''}${status.title}`;
+
+      if (status.title.includes('Owulacja')) {
+        modalDescription.textContent = 'To najważniejszy dzień w cyklu! Uwolnienie komórki jajowej. Szansa na poczęcie wynosi około 33%. Najwyższa płodność.';
+      } else if (status.title.includes('Płodny')) {
+        modalDescription.textContent = 'Należysz do okienka płodności. Plemniki mogą przetrwać w drogach rodnych do 5 dni, oczekując na owulację.';
+      } else if (status.title.includes('Miesiączka')) {
+        modalDescription.textContent = 'Pierwsze dni cyklu menstruacyjnego. Płodność jest znikoma, zalecany odpoczynek i regeneracja.';
+      } else if (status.title.includes('Test')) {
+        modalDescription.textContent = 'Zalecany dzień na wykonanie czułego testu ciążowego (np. o czułości 10 mIU/ml) z pierwszego moczu porannego.';
+      } else {
+        modalDescription.textContent = 'Dzień niepłodny wg kalkulacji kalendarzowej. Prawdopodobieństwo zapłodnienia jest bardzo niskie.';
+      }
+
+      dayModal.classList.remove('hidden');
+    }
+  })();
 </script>
