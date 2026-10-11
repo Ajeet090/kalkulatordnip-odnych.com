@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kalkulatordnip%C5%82odnych.com/sitemap.xml
+Sitemap: https://kalkulatordnipłodnych.com/sitemap.xml

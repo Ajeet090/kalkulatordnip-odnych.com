@@ -12,8 +12,8 @@ interface Props {
 const siteUrl = "https://kalkulatordnipłodnych.com";
 
 const {
-  title = "Kalkulator Dni Płodnych i Owulacji Online | Kalendarz Cyklu",
-  description = "Darmowy kalkulator dni płodnych i owulacji. Oblicz swoje dni płodne, owulację oraz termin porodu. Dokładne wyliczenia, kalendarz cyklu i porady ginekologiczne.",
+  title = "Kalkulator Dni Płodnych i Owulacji | Kalendarz Cyklu",
+  description = "Darmowy kalkulator dni płodnych i owulacji. Oblicz okres płodny, przewidywaną owulację i wiek ciąży na podstawie długości cyklu.",
   canonicalUrl = `${siteUrl}${Astro.url.pathname}`,
   includeFaqSchema = Astro.url.pathname === '/',
   noindex = false
@@ -91,10 +91,10 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      "name": "Jaki jest najdokładniejszy kalkulator dni płodnych?",
+      "name": "Jakie są ograniczenia kalkulatora dni płodnych?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Najdokładniejszy kalkulator dni płodnych to taki, który pozwala na personalizację długości cyklu oraz czasu trwania fazy lutealnej, a nie przyjmuje wyłącznie sztywnych 28 dni. Cyfrowe obliczenia stanowią jednak punkt wyjścia – maksymalną precyzję osiąga się łącząc kalendarz owulacji z wieloparametrową metodą objawowo-termiczną (obserwacja śluzu i temperatury) oraz aptecznymi testami LH."
+        "text": "Kalkulator dni płodnych jest narzędziem pomocniczym, które może lepiej odzwierciedlać typowy cykl, ale nie zastępuje obserwacji własnego ciała ani konsultacji z lekarzem. Najlepsze rezultaty uzyskuje się, łącząc wyliczenia z codziennym pomiarem temperatury, obserwacją śluzu szyjkowego i testami owulacyjnymi LH."
       }
     }
   ]
@@ -213,6 +213,8 @@ const breadcrumbSchema = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#171717" />
+    <meta name="author" content="Kalkulator Dni Płodnych" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
@@ -221,8 +223,9 @@ const breadcrumbSchema = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="keywords" content="kalkulator dni płodnych, kalkulator owulacji, kalendarz małżeński, dni płodne i niepłodne, kiedy owulacja, kalkulator ciąży, termin porodu, tydzień ciąży, cykl menstruacyjny, planowanie ciąży" />
-    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"} />
+    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="pl" href={canonicalUrl} />
     <link rel="sitemap" href="/sitemap.xml" />
 
     <!-- Open Graph / Facebook -->

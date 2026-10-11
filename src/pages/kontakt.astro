@@ -34,15 +34,15 @@ import Footer from '../components/Footer.astro';
         <!-- Contact Information Side Card (5 cols) -->
         <div class="md:col-span-5 feature-card bg-white space-y-6">
           <div class="border-b border-[#ebebeb] pb-3">
-            <h2 class="heading-md text-[#171717] text-base">Dane Kontaktowe</h2>
-            <p class="text-xs text-[#8f8f8f] mt-0.5">Biuro Serwisu kalkulatordnipłodnych.com</p>
+            <h2 class="heading-md text-[#171717] text-base">Kontakt</h2>
+            <p class="text-xs text-[#8f8f8f] mt-0.5">Napisz do nas bezpośrednio</p>
           </div>
 
           <div class="space-y-4 text-xs">
             <div class="flex items-start gap-3">
               <span class="text-base text-[#0070f3]">✉️</span>
               <div>
-                <div class="font-semibold text-[#171717]">Adres E-mail</div>
+                <div class="font-semibold text-[#171717]">Adres e-mail</div>
                 <a href="mailto:kontakt@kalkulatordnipłodnych.com" class="font-mono text-[#0070f3] hover:underline">
                   kontakt@kalkulatordnipłodnych.com
                 </a>
@@ -50,26 +50,16 @@ import Footer from '../components/Footer.astro';
             </div>
 
             <div class="flex items-start gap-3">
-              <span class="text-base text-[#0070f3]">📞</span>
+              <span class="text-base text-[#0070f3]">⏱️</span>
               <div>
-                <div class="font-semibold text-[#171717]">Infolinia Techniczna</div>
-                <div class="font-mono text-[#171717]">+48 22 890 12 34</div>
-                <div class="text-[11px] text-[#8f8f8f]">Pn. – Pt. w godz. 9:00 – 17:00</div>
-              </div>
-            </div>
-
-            <div class="flex items-start gap-3">
-              <span class="text-base text-[#0070f3]">🏢</span>
-              <div>
-                <div class="font-semibold text-[#171717]">Siedziba</div>
-                <div class="text-[#4d4d4d]">ul. Marszałkowska 100/102</div>
-                <div class="font-mono text-[#8f8f8f]">00-017 Warszawa, Polska</div>
+                <div class="font-semibold text-[#171717]">Czas odpowiedzi</div>
+                <div class="text-[#4d4d4d]">Zazwyczaj w ciągu 24 godzin roboczych.</div>
               </div>
             </div>
           </div>
 
           <div class="p-3.5 rounded-xl bg-[#fafafa] border border-[#ebebeb] text-[11px] text-[#4d4d4d]">
-            <span class="font-semibold text-[#171717]">Czas odpowiedzi:</span> Odpowiadamy na wszystkie wiadomości zazwyczaj w ciągu 24 godzin roboczych.
+            <span class="font-semibold text-[#171717]">Uwaga:</span> Formularz kontaktowy otwiera klienta poczty e-mail, aby wysłać wiadomość bezpośrednio do naszego zespołu.
           </div>
         </div>
 
@@ -169,17 +159,33 @@ import Footer from '../components/Footer.astro';
 
     if (!formAlert || !submitBtn) return;
 
+    const name = (document.getElementById('contact-name') as HTMLInputElement)?.value?.trim() ?? '';
+    const email = (document.getElementById('contact-email') as HTMLInputElement)?.value?.trim() ?? '';
+    const subject = (document.getElementById('contact-subject') as HTMLSelectElement)?.value ?? 'pytanie';
+    const message = (document.getElementById('contact-message') as HTMLTextAreaElement)?.value?.trim() ?? '';
+
+    const subjectLabel: Record<string, string> = {
+      pytanie: 'Pytanie dotyczące kalkulatora',
+      sugestia: 'Sugestia / zgłoszenie błędu',
+      wspolpraca: 'Współpraca / reklama',
+      inne: 'Inna sprawa'
+    };
+
+    const mailto = `mailto:kontakt@kalkulatordnipłodnych.com?subject=${encodeURIComponent(subjectLabel[subject] ?? 'Wiadomość z formularza')}&body=${encodeURIComponent(
+      `Imię i nazwisko: ${name}\nE-mail: ${email}\nTemat: ${subjectLabel[subject] ?? 'Wiadomość'}\n\n${message}`
+    )}`;
+
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Wysyłanie...';
+    submitBtn.textContent = 'Przygotowywanie wiadomości...';
 
-    setTimeout(() => {
-      formAlert.classList.remove('hidden', 'bg-[#ee0000]/10', 'border-[#ee0000]', 'text-[#ee0000]');
-      formAlert.classList.add('bg-[#10b981]/10', 'border-[#10b981]', 'text-[#10b981]');
-      formAlert.textContent = 'Dziękujemy! Twoja wiadomość została pomyślnie wysłana. Odpowiemy najszybciej jak to możliwe.';
+    formAlert.classList.remove('hidden', 'bg-[#ee0000]/10', 'border-[#ee0000]', 'text-[#ee0000]');
+    formAlert.classList.add('bg-[#10b981]/10', 'border-[#10b981]', 'text-[#10b981]');
+    formAlert.textContent = 'Twój klient poczty otworzy się z gotową wiadomością. Uzupełnij wysyłkę i wyślij ją do naszego zespołu.';
 
-      contactForm.reset();
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Wyślij Wiadomość';
-    }, 800);
+    window.location.href = mailto;
+
+    contactForm.reset();
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Wyślij Wiadomość';
   });
 </script>
