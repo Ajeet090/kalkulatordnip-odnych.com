@@ -17,5 +17,11 @@
     "astro": "^7.3.5",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3"
+  },
+  "optionalDependencies": {
+    "@astrojs/compiler-binding-linux-x64-gnu": "^0.5.1",
+    "@rolldown/binding-linux-x64-gnu": "^1.2.12",
+    "@tailwindcss/oxide-linux-x64-gnu": "^4.3.3",
+    "lightningcss-linux-x64-gnu": "^1.33.0"
   }
 }
